@@ -50,12 +50,17 @@ def sign_up(request):
 
 
 def profile(request):
+    context = {}
+    html_page = None
     id = request.COOKIES.get('id')
     if id:
         id = int(id)
-        User.objects.get(id=id)
-
-    return render(request, 'SlivaJob/profile.html')
+        form = ProfileForm(User.objects.get(id=id))
+        context['profile_form'] = form
+        html_page = render(request, 'SlivaJob/profile.html', context);
+    else:
+        html_page = redirect('index')
+    return html_page
 
 
 def vacancies(request):
