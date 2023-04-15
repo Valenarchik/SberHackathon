@@ -11,7 +11,7 @@ class User(models.Model):
     third_name = models.CharField(max_length=255, verbose_name="Отчество пользователя", blank=True, null=True)
     photo = models.ImageField(upload_to="media/img/usersPhotos")
 
-    password = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)], default="12345678")
+    password = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)], verbose_name="Пароль", default="12345678")
     email = models.EmailField(default="defaultemail@mail.ru")
     join_date = models.DateTimeField(null=False, auto_now_add=True)
     last_login_date = models.DateTimeField(null=False, default=datetime.datetime.now())
