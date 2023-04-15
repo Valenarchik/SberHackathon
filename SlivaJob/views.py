@@ -149,6 +149,8 @@ def to_orderer(request):
             orders = Order.objects.filter(orderer=int(id), score=filt)
         else:
             orders = Order.objects.filter(orderer=int(id))
+        if len(orders) == 0:
+            context['is_empty'] = True
         context['filter_form'] = filter_form
         context['orders'] = orders
         html_page = render(request, 'SlivaJob/to_orderer.html', context)
