@@ -2,13 +2,37 @@
 
 {% block content %}
     <h1><strong>{{ test.name }}</strong></h1>
+    <form method="POST" action="/to_employee/test/{{ test.id }}/">
     {% for question, variants in questions%}
         <div>
         <h2><strong>{{ question.question }}</strong></h2>
-        {% for variant in variants %}
-            <input type="radio" id="{{ variant }}" name="{{ question.id}}" value="{{ variant }}">
+        {% for num, variant in variants %}
+            <input class="question" type="radio" id="{{ variant }}" name="{{ question.id }}" value="{{ num }}">
             <label for="{{ variant }}">{{ variant }}</label>
         {% endfor %}
         </div>
     {% endfor %}
+        {% csrf_token %}
+        <button class="submit_button" id="submit">Отправить на проверку</button>
+    </form>
+    <!--<script>
+        let button = document.querySelector('.submit_button');
+        button.addEventListener('click', function ()
+        {
+            let inputs = document.querySelectorAll('.question');
+            console.log(1)
+            let params = new URLSearchParams();
+            let answers = [];
+            for(let input of inputs){
+                answers.push(input.value);
+                console.log(input.value);
+            }
+            params.append("Answer", "Answer")
+            {{ request.POST }}
+            let result = fetch('/to_employee/test/{{ test.id }}/', {
+               method: 'post'
+            });
+            console.log(result)
+        })
+    </script> -->
 {% endblock %}
