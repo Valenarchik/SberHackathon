@@ -24,10 +24,11 @@ class LogInForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
-    model = User
-    fields = ('first_name', 'surname', 'photo')
-    widgets = {
-        'first_name': forms.TextInput(attrs={'class': 'form-input'}),
-        'surname': forms.TextInput(attrs={'class': 'form-input'}),
-        'photo': forms.FileInput(attrs={'class': 'file-input'})
-    }
+    class Meta:
+        model = User
+        fields = ('first_name', 'surname', 'photo')
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-input'}),
+            'surname': forms.TextInput(attrs={'class': 'form-input'}),
+            'photo': forms.FileInput(attrs={'class': 'file-input'})
+        }

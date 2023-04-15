@@ -5,5 +5,9 @@
 {% endblock %}
 
 {% block content %}
-    profile
+    <form method="post">
+        {% csrf_token %}
+        {{ sing_up_form.as_p }}
+        <button type="submit" value="Save" name="submit">Сохранить</button>
+    </form>
 {% endblock %}
