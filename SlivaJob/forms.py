@@ -44,11 +44,20 @@ ORDER_TYPE = [
 
 
 class FilterOrderForm(forms.Form):
-    score = forms.CharField(label='Выберите тип заказа', widget=forms.Select(choices=ORDER_TYPE))
+    status = forms.CharField(label='Выберите тип заказа', widget=forms.Select(choices=ORDER_TYPE))
 
 
 class CreateOrderForm(forms.Form):
     order_name = forms.CharField(label='Название', widget=forms.TextInput())
     description = forms.CharField(label='Описание', widget=forms.Textarea())
-    score = forms.CharField(label='Выберите тип', widget=forms.Select(choices=ORDER_TYPE))
+    score = forms.IntegerField(label='Выберите тип', validators=[MaxValueValidator(0), ])
     comment = forms.CharField(label='Комментарий', widget=forms.TextInput())
+
+
+class CreateQuestionForm(forms.Form):
+    question = forms.CharField(max_length=50, label="Вопрос")
+    ansver1 = forms.CharField(max_length=50)
+    ansver2 = forms.CharField(max_length=50)
+    ansver3 = forms.CharField(max_length=50)
+    ansver4 = forms.CharField(max_length=50)
+    right_answer = forms.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4)])
