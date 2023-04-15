@@ -21,3 +21,13 @@ class LogInForm(forms.ModelForm):
         widgets = {
             'password': forms.PasswordInput(attrs={'class': 'form-input'})
         }
+
+
+class ProfileForm(forms.ModelForm):
+    model = User
+    fields = ('first_name', 'surname', 'photo')
+    widgets = {
+        'first_name': forms.TextInput(attrs={'class': 'form-input'}),
+        'surname': forms.TextInput(attrs={'class': 'form-input'}),
+        'photo': forms.FileInput(attrs={'class': 'file-input'})
+    }

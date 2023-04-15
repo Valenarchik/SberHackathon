@@ -6,12 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a4ddcada-f279-4c7b-818f-786f98806ee8" name="Changes" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SlivaJob/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/SlivaJob/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SlivaJob/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/SlivaJob/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SlivaJob/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/SlivaJob/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/theme/static/css/dist/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/theme/static/css/dist/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/theme/templates/SlivaJob/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/theme/templates/SlivaJob/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/theme/templates/SlivaJob/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/theme/templates/SlivaJob/signup.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +97,7 @@
       <option name="presentableId" value="Default" />
       <updated>1681543161084</updated>
       <workItem from="1681543162301" duration="6774000" />
-      <workItem from="1681554181458" duration="7989000" />
+      <workItem from="1681554181458" duration="9622000" />
     </task>
     <task id="LOCAL-00001" summary="tailwind + helloworld">
       <created>1681545386498</created>
@@ -158,7 +155,21 @@
       <option name="project" value="LOCAL" />
       <updated>1681560021717</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update">
+      <created>1681562244684</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1681562244684</updated>
+    </task>
+    <task id="LOCAL-00010" summary="update">
+      <created>1681562250635</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1681562250635</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,21 +194,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/SlivaJob/views.py</url>
-          <line>35</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/SlivaJob/views.py</url>
-          <line>39</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/SlivaJob/views.py</url>
-          <line>41</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/SlivaJob/views.py</url>
           <line>9</line>
