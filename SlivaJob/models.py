@@ -17,8 +17,8 @@ class User(models.Model):
     last_login_date = models.DateTimeField(null=True)
     is_active = models.BooleanField(default=False)
 
-    def get_absolute_url(self):
-        return reverse('profile', kwargs={'chart_slug': self.slug})
+    # def get_absolute_url(self):
+    #    return reverse('profile', kwargs={'chart_slug': self.slug})
 
 
 class Worker(models.Model):
