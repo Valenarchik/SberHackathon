@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'SlivaJob.apps.SlivajobConfig',
     'tailwind',
     'theme',
-    'django_browser_reload'
+    'django_browser_reload',
+    "crispy_forms",
+    "crispy_tailwind",
 ]
 
 MIDDLEWARE = [
@@ -124,3 +126,7 @@ INTERNAL_IPS = [
 ]
 
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"

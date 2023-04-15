@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator
 
 
@@ -15,6 +16,9 @@ class User(models.Model):
     join_date = models.DateTimeField(null=False, auto_now_add=True)
     last_login_date = models.DateTimeField(null=False, default=datetime.datetime.now())
     is_active = models.BooleanField(null=False, default=False)
+
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'chart_slug': self.slug})
 
 
 class Worker(models.Model):

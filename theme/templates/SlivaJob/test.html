@@ -6,8 +6,8 @@
         <div>
         <h2><strong>{{ question.question }}</strong></h2>
         {% for variant in variants %}
-            <input type="radio" id="huey" name="drone" value="huey">
-            <label for="huey">{{ variant }}</label>
+            <input type="radio" id="{{ variant }}" name="{{ question.id}}" value="{{ variant }}">
+            <label for="{{ variant }}">{{ variant }}</label>
         {% endfor %}
         </div>
     {% endfor %}
