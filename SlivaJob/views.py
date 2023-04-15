@@ -92,12 +92,17 @@ def vacancies(request):
     return render(request, 'SlivaJob/vacancies.html')
 
 
-import django_filters
+def to_employee(request):
+    return render(request, 'SlivaJob/to_employee.html')
 
 
-class ProductFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr='iexact')
+def to_employer(request):
+    return render(request, 'SlivaJob/to_employer.html')
 
-    class Meta:
-        model = User
-        fields = ['price', 'release_date']
+
+def to_mentor(request):
+    return render(request, 'SlivaJob/to_mentor.html')
+
+
+def to_orderer(request):
+    return render(request, 'SlivaJob/to_orderer.html')

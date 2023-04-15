@@ -11,14 +11,15 @@ class User(models.Model):
 
     # about = models.TextField(blank=True, default='')
 
+    login = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(8)])
     password = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(8)])
     email = models.EmailField(default='')
     join_date = models.DateTimeField(null=True)
     last_login_date = models.DateTimeField(null=True)
     is_active = models.BooleanField(default=False)
 
-    def get_absolute_url(self):
-        return reverse('profile', kwargs={'chart_slug': self.slug})
+    # def get_absolute_url(self):
+    #     return reverse('profile', kwargs={'chart_slug': self.slug})
 
 
 class Worker(models.Model):
