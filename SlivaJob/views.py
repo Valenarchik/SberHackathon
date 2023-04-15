@@ -10,7 +10,10 @@ def index(request):
 
 
 def orders(request):
-    return HttpResponse("orders")
+    context = {
+        "ordersList": Order.objects.all()
+    }
+    return render(request, 'SlivaJob/orders.html', context=context)
 
 
 def workers(request):
