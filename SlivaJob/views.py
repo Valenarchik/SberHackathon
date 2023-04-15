@@ -3,12 +3,12 @@ from django.http import HttpResponse
 from .forms import *
 from .models import *
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render,redirect
 
 
 def index(request):
     context ={}
-    if request.COOKIES.get('is_log_in') == "1":
+    if request.COOKIES.get('id'):
         context['is_log_in'] = True
     else:
         context['is_log_in'] = False
@@ -36,24 +36,27 @@ def sign_up(request):
     if request.method == 'POST':
         sign_up_form = SignUpForm(request.POST)
         if sign_up_form.is_valid():
-            context = {'id': True}
-            sign_up_form.save()
+            user = sign_up_form.save()
             html_page = redirect('index')
-            html_page.set_cookie('id', '1', max_age=1)
+            html_page.set_cookie('id', f'{user.id}', max_age=None)
         else:
             context = {'sing_up_form': sign_up_form}
             html_page = render(request, 'SlivaJob/signup.html', context)
     else:
         sign_up_form = SignUpForm()
         context = {'sing_up_form': sign_up_form}
-        html_page = render(request, 'SlivaJob/signup.html', context)
+        html_page = render(request, 'SlivaJob/signup.html',context )
     return html_page
 
 
 def profile(request):
+    id = request.COOKIES.get('id')
+    if id:
+        id = int(id)
+        User.objects.get(id=id)
+
     return render(request, 'SlivaJob/profile.html')
 
 
 def vacancies(request):
     return render(request, 'SlivaJob/vacancies.html')
-
