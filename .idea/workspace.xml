@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4ddcada-f279-4c7b-818f-786f98806ee8" name="Changes" comment="Workers view">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SlivaJob/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/SlivaJob/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/theme/templates/SlivaJob/to_orderer.html" beforeDir="false" afterPath="$PROJECT_DIR$/theme/templates/SlivaJob/to_orderer.html" afterDir="false" />
+    <list default="true" id="a4ddcada-f279-4c7b-818f-786f98806ee8" name="Changes" comment="update">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SlivaJob/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SlivaJob/migrations/0002_alter_user_last_login_date_test_question.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SlivaJob/migrations/0003_test_question_correct_index_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SlivaJob/migrations/0004_test_question_score_alter_user_last_login_date.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SlivaJob/migrations/0005_remove_user_login_test_name_and_more.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +101,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681552972228</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="update">
+      <created>1681582189756</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1681582189756</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
