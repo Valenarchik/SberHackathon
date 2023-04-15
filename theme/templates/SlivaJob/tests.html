@@ -6,20 +6,39 @@
 
 {% block content %}
     <h1><strong>Тесты</strong></h1>
-    <table>
-        <tr>
-            <th><strong>Название теста</strong></th>
-            <th><strong>Максимальный балл</strong></th>
-            <th><strong>Компетенции</strong></th>
-            <th><strong>Ссылка</strong></th>
-        </tr>
-    </table>
-    {% for test, skills in  testsList %}
-        <tr>
-            <td>{{ test.name }}</td>
-            <td>{{ test.max_score }}</td>
-            <td>{{ skills }}</td>
-            <td><a href="../test/{{ test.id }}">Ссылка на тест</a></td>
-        </tr>
-    {% endfor %}
+    <div class="overflow-x-auto shadow-md sm:rounded-lg inline-block min-w-full align-middle">
+        <div class="overflow-hidden ">
+            <table class="min-w-full divide-y table-fixed divide-gray-700">
+                <thead class="bg-gray-100">
+                <tr>
+                    <th scope="col"
+                        class="py-3 px-6 text-sm font-bold tracking-wider text-left text-gray-400">
+                        Название теста
+                    </th>
+                    <th scope="col"
+                        class="py-3 px-6 text-sm font-bold tracking-wider text-left text-gray-400">
+                        Максимальный балл
+                    </th>
+                    <th scope="col"
+                        class="py-3 px-6 text-sm font-bold tracking-wider text-left text-gray-400">
+                        Компетенции
+                    </th>
+                </tr>
+                </thead>
+                <tbody class="divide-y bg-gray-800 divide-gray-700">
+                {% for test, skills in  testsList %}
+                    <tr class="hover:bg-gray-700 hover:cursor-pointer" onclick='location.href="../test/{{ test.id }}"'>
+                        <td class="py-4 px-6 text-sm font-medium whitespace-nowrap text-white">
+                            <a class="w-full" href="../test/{{ test.id }}">
+                                {{ test.name }}
+                            </a>
+                        </td>
+                        <td class="py-4 px-6 text-sm font-medium whitespace-nowrap text-white">{{ test.max_score }}</td>
+                        <td class="py-4 px-6 text-sm font-medium whitespace-nowrap text-white">{{ skills }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
