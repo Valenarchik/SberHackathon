@@ -11,25 +11,16 @@ def index(request):
 
 
 def orders(request):
-    return HttpResponse("orders")
+    return render(request, 'SlivaJob/orders.html')
 
 
 def workers(request):
-    return HttpResponse("workers")
+    return render(request, 'SlivaJob/workers.html')
 
 
 def tests(request):
     return HttpResponse("profile")
     #return render(request, 'SlivaJob/test.html', context)
-
-
-def profile(request):
-    return HttpResponse("profile")
-
-
-def vacancies(request):
-    return HttpResponse("vacancies")
-
 
 def registration(request):
     context = {}
@@ -41,3 +32,11 @@ def registration(request):
         sign_up_form = SignUpForm()
     context['sing_up_form'] = sign_up_form
     return render(request, 'SlivaJob/test.html', context)
+
+
+def profile(request):
+    return render(request, 'SlivaJob/profile.html')
+
+
+def vacancies(request):
+    return render(request, 'SlivaJob/vacancies.html')
