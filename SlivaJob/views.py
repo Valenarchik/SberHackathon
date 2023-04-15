@@ -137,8 +137,13 @@ def to_mentor(request):
 def to_orderer(request):
     html_page = None
     id = request.COOKIES.get('id')
+    context = {}
     if id:
         orders = Order.objects.filter(id=int(id))
+        context['orders'] = orders
+        html_page = render(request, 'SlivaJob/to_orderer.html', context)
+    else:
+        html_page = redirect('index')
 
     return html_page
 
