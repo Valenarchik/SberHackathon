@@ -5,40 +5,41 @@
 {% endblock %}
 
 {% block content %}
-    <h1><strong>Тесты</strong></h1>
-    <div class="overflow-x-auto shadow-md sm:rounded-lg inline-block min-w-full align-middle">
-        <div class="overflow-hidden ">
-            <table class="min-w-full divide-y table-fixed divide-gray-700">
-                <thead class="bg-gray-300">
-                <tr>
-                    <th scope="col"
-                        class="py-3 px-6 text-sm font-bold tracking-wider text-left text-gray-400">
-                        Название теста
-                    </th>
-                    <th scope="col"
-                        class="py-3 px-6 text-sm font-bold tracking-wider text-left text-gray-400">
-                        Максимальный балл
-                    </th>
-                    <th scope="col"
-                        class="py-3 px-6 text-sm font-bold tracking-wider text-left text-gray-400">
-                        Компетенции
-                    </th>
-                </tr>
-                </thead>
-                <tbody class="divide-y bg-gray-800 divide-gray-700">
-                {% for test, skills in  testsList %}
-                    <tr class="hover:bg-gray-700 hover:cursor-pointer" onclick='location.href="../test/{{ test.id }}"'>
-                        <td class="py-4 px-6 text-sm font-medium whitespace-nowrap text-white">
-                            <a class="w-full" href="../test/{{ test.id }}">
-                                {{ test.name }}
-                            </a>
-                        </td>
-                        <td class="py-4 px-6 text-sm font-medium whitespace-nowrap text-white">{{ test.max_score }}</td>
-                        <td class="py-4 px-6 text-sm font-medium whitespace-nowrap text-white">{{ skills }}</td>
+    <div class="w-8/12 mx-auto mt-8 overflow-hidden rounded-bl-2xl self-end">
+        <h1 class="font-bold text-3xl mb-3 ml-4">
+            Тесты
+        </h1>
+        <div class="overflow-x-auto shadow-md sm:rounded-lg inline-block min-w-full align-middle">
+            <div class="overflow-hidden ">
+                <table class="min-w-full divide-y table-fixed divide-gray-700">
+                    <thead class="bg-gray-700">
+                    <tr>
+                        <th scope="col"
+                            class="py-3 px-6 text-lg font-bold tracking-wider text-left text-gray-400">
+                            Название теста
+                        </th>
+                        <th scope="col"
+                            class="py-3 px-6 text-lg font-bold tracking-wider text-left text-gray-400">
+                            Максимальный балл
+                        </th>
+                        <th scope="col"
+                            class="py-3 px-6 text-lg font-bold tracking-wider text-left text-gray-400">
+                            Компетенции
+                        </th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="divide-y bg-gray-800 divide-gray-700">
+                    {% for test, skills in testsList %}
+                        <tr class="hover:bg-gray-700 hover:cursor-pointer"
+                            onclick='location.href="../test/{{ test.id }}"'>
+                            <td class="w-7/12 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ test.name }}</td>
+                            <td class="w-3/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ test.max_score }}</td>
+                            <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ skills }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 {% endblock %}
