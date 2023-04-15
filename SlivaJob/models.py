@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator
 
 
 class User(models.Model):
@@ -7,6 +7,13 @@ class User(models.Model):
     surname = models.CharField(max_length=255, verbose_name="Фамилия пользователя")
     third_name = models.CharField(max_length=255, verbose_name="Отчество пользователя", blank=True, null=True)
     photo = models.ImageField(upload_to="media/img/usersPhotos")
+
+    password = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)])
+    login = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)])
+    email = models.EmailField()
+    join_date = models.DateTimeField(null=False, auto_now_add=True)
+    last_login_date = models.DateTimeField(null=False)
+    is_active = models.BooleanField(null=False)
 
 
 class Worker(models.Model):
@@ -22,7 +29,7 @@ class Mentor(models.Model):
 
 
 class Orderer(models.Model):
-    orderer_id = models.ForeignKey(User, on_delete=models.PROTECT)
+    orderer = models.ForeignKey(User, on_delete=models.PROTECT)
 
 
 class Employer(models.Model):

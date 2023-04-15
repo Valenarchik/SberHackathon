@@ -10,6 +10,7 @@ class SignUpForm(forms.ModelForm):
              'password': forms.PasswordInput(),
         }
 
+
 class LogInForm(forms.ModelForm):
     class Meta:
         model = User
