@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import *
-
+from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator
 
 def index(request):
     context = {}
@@ -87,8 +87,6 @@ def log_in(request):
                     html_page = redirect('index')
                     html_page.set_cookie('id', f'{user.id}', max_age=None)
                 else:
-                    context = {'log_in_form': log_in_form}
-                    html_page = render(request, 'SlivaJob/login.html', context)
                     log_in_form.add_error('password', 'Неверный пароль')
             else:
                 log_in_form.add_error('email', 'Указан неверный E-mail')
@@ -139,7 +137,19 @@ def to_orderer(request):
     id = request.COOKIES.get('id')
     context = {}
     if id:
-        orders = Order.objects.filter(id=int(id))
+        filt = None
+        if request.POST:
+            filter_form = FilterOrderForm(request.POST)
+            if filter_form.is_valid():
+                filt =  filter_form.cleaned_data['score']
+        else:
+            filter_form = FilterOrderForm()
+
+        if filt is not None and filt != '-1':
+            orders = Order.objects.filter(orderer=int(id), score=filt)
+        else:
+            orders = Order.objects.filter(orderer=int(id))
+        context['filter_form'] = filter_form
         context['orders'] = orders
         html_page = render(request, 'SlivaJob/to_orderer.html', context)
     else:
@@ -149,7 +159,32 @@ def to_orderer(request):
 
 
 def create_order(request):
-    return render(request, 'SlivaJob/create_order.html')
+    id = int(request.COOKIES.get('id'))
+    if request.POST:
+        create_order_form = CreateOrderForm(request.POST)
+        if create_order_form.is_valid():
+            order_name = create_order_form.cleaned_data['order_name']
+            description = create_order_form.cleaned_data['description']
+            score = create_order_form.cleaned_data['score']
+            comment = create_order_form.cleaned_data['comment']
+            order = Order.objects.create(
+                orderer=User.objects.get(id=id),
+                order_name=order_name,
+                description=description,
+                score=score,
+                comment=comment,
+                status=0
+            )
+            order.save()
+            return redirect('to_orderer')
+        else:
+            context = {'create_order_form': create_order_form}
+            return render(request, 'SlivaJob/create_order.html', context)
+
+    else:
+        create_order_form = CreateOrderForm()
+        context = {'create_order_form': create_order_form}
+        return render(request, 'SlivaJob/create_order.html', context)
 
 
 def create_test(request):
@@ -161,5 +196,5 @@ def my_tests(request):
 
 
 def test_page(request):
-    form = UserForm()
-    return render(request, 'SlivaJob/test_page.html')
+    form = FilterOrderForm()
+    return render(request, 'SlivaJob/test_page.html', {'form': form})
