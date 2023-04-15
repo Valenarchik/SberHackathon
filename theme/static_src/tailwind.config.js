@@ -42,7 +42,7 @@ module.exports = {
         // '../../**/*.py'
     ],
     presets: [],
-    darkMode: 'media', // or 'class'
+    darkMode: 'dark', // or 'class'
     theme: {
         screens: {
             sm: '640px',

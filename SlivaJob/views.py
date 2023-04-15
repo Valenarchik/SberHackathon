@@ -126,6 +126,10 @@ def to_employee(request):
     return render(request, 'SlivaJob/to_employee.html')
 
 
+def to_employer(request):
+    return render(request, 'SlivaJob/to_employer.html')
+
+
 def to_mentor(request):
     return render(request, 'SlivaJob/to_mentor.html')
 
@@ -137,6 +141,18 @@ def to_orderer(request):
         orders = Order.objects.filter(id=int(id))
 
     return html_page
+
+
+def create_order(request):
+    return render(request, 'SlivaJob/create_order.html')
+
+
+def create_test(request):
+    return render(request, 'SlivaJob/create_test.html')
+
+
+def my_tests(request):
+    return render(request, 'SlivaJob/my_tests.html')
 
 
 def test_page(request):

@@ -7,21 +7,23 @@ from .views import *
 urlpatterns = [
     path('', index, name='index'),
     path('to_employee/', to_employee, name='to_employee'),
+    path('to_employee/orders/', orders, name='orders'),
+    path('to_employee/tests/', tests, name='tests'),
+    path('to_employee/tests/test/<int:test_id>/', test, name='test'),
     path('to_employer/', to_employer, name='to_employer'),
     path('to_mentor/', to_mentor, name='to_mentor'),
+    path('to_mentor/create_test/', create_test, name='create_test'),
+    path('to_mentor/my_tests/', my_tests, name='my_tests'),
     path('to_orderer/', to_orderer, name='to_orderer'),
-    path('orders/', orders, name='orders'),
+    path('to_orderer/create_order/', create_order, name='create_order'),
     path('workers/', workers, name='workers'),
-    path('tests/', tests, name='tests'),
     path('profile/', profile, name='profile'),
     path('vacancies/', vacancies, name='vacancies'),
     path('sign_up/', sign_up, name='sign_up'),
-    path('test/<int:test_id>', test, name='test'),
     path('log_in/', log_in, name='log_in'),
-    #Станица для тестов сайта
+    # Станица для тестов сайта
     path('test_page', test_page)
     #
-
 ]
 
 if settings.DEBUG:
