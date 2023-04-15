@@ -18,9 +18,6 @@ class User(models.Model):
     last_login_date = models.DateTimeField(null=False, default=datetime.datetime.now())
     is_active = models.BooleanField(null=False, default=False)
 
-    # def get_absolute_url(self):
-    #    return reverse('profile', kwargs={'chart_slug': self.slug})
-
 
 class Worker(models.Model):
     worker = models.ForeignKey(User, on_delete=models.PROTECT)
@@ -55,11 +52,7 @@ class Skill(models.Model):
 
 class Test(models.Model):
     mentor = models.ForeignKey(User, on_delete=models.PROTECT)
-    max_score = models.IntegerField()
     name = models.CharField(max_length=255, verbose_name="Название теста", default="Test name")
-
-    def get_absolute_url(self):
-        return reverse('create_test')
 
 
 class Test_Question(models.Model):

@@ -56,8 +56,11 @@ class CreateOrderForm(forms.Form):
 
 class CreateQuestionForm(forms.Form):
     question = forms.CharField(max_length=50, label="Вопрос")
-    ansver1 = forms.CharField(max_length=50)
-    ansver2 = forms.CharField(max_length=50)
-    ansver3 = forms.CharField(max_length=50)
-    ansver4 = forms.CharField(max_length=50)
+    answer1 = forms.CharField(max_length=50)
+    answer2 = forms.CharField(max_length=50)
+    answer3 = forms.CharField(max_length=50)
+    answer4 = forms.CharField(max_length=50)
     right_answer = forms.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4)])
+
+class CreateTestForm(forms.Form):
+    name = forms.CharField(max_length=50, label="Название теста")

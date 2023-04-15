@@ -207,12 +207,35 @@ def create_order(request):
         return render(request, 'SlivaJob/create_order.html', context)
 
 
-def create_test(request):
-    return render(request, 'SlivaJob/create_test.html')
+def create_test(request, test_id):
+    testObj = Test.objects.filter(id=test_id)
+    id = int(request.COOKIES.get('id'))
+    if testObj:
+        allQuestions = Test_Question.objects.filter(test_id=test_id)
+        context = {
+            'allQuestions': allQuestions,
+            'name': testObj.first().name
+        }
+        return render(request, 'SlivaJob/create_test.html', context)
+    else:
+        if request.POST:
+            create_test_form = CreateTestForm(request.POST)
+            if create_test_form.is_valid():
+                name = create_test_form.cleaned_data['name']
+                test = Test.objects.create(name=name, mentor_id=id)
+                context = {
+                    'name': name
+                }
+                return render(request, 'SlivaJob/create_test.html', context)
+        else:
+            create_test_form = CreateTestForm()
+        context = {
+            'form': create_test_form
+        }
+        return render(request, 'SlivaJob/create_test.html', context=context)
 
 
 def create_question(request, test_id):
-    id = int(request.COOKIES.get('id'))
     context = {}
     if request.POST:
         create_question_form = CreateQuestionForm(request.POST)
@@ -222,11 +245,19 @@ def create_question(request, test_id):
             answer2 = create_question_form.cleaned_data['answer2']
             answer3 = create_question_form.cleaned_data['answer3']
             answer4 = create_question_form.cleaned_data['answer4']
-            answers = [answer1, answer2, answer3, answer4]
-            question = Test_Question.objects.create(test_id=test_id, question=question)
+            arr = [answer1, answer2, answer3, answer4]
+            answers = '|'.join(arr)
+            rightAnswerIndex = create_question_form.cleaned_data['right_answer']
+            correct = arr[rightAnswerIndex]
+            question = Test_Question.objects.create(test_id=test_id, question=question, variants=answers,
+                                                    rightAnswerIndex=rightAnswerIndex, correct=correct)
+            question.save()
+        return redirect('create_test')
+
     else:
         create_question_form = CreateQuestionForm()
-    context['create_question_form'] = create_question_form
+        context['create_question_form'] = create_question_form
+        return render(request, 'SlivaJob/create_question.html', context)
 
 
 def my_tests(request):
