@@ -10,11 +10,11 @@ def index(request):
 
 
 def orders(request):
-    return HttpResponse("orders")
+    return render(request, 'SlivaJob/orders.html')
 
 
 def workers(request):
-    return HttpResponse("workers")
+    return render(request, 'SlivaJob/workers.html')
 
 
 def tests(request):
@@ -31,8 +31,8 @@ def tests(request):
 
 
 def profile(request):
-    return HttpResponse("profile")
+    return render(request, 'SlivaJob/profile.html')
 
 
 def vacancies(request):
-    return HttpResponse("vacancies")
+    return render(request, 'SlivaJob/vacancies.html')
