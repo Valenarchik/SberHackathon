@@ -1,6 +1,5 @@
-from .forms import *
-
 from django.shortcuts import render, redirect
+from .forms import *
 
 
 def index(request):
@@ -24,7 +23,6 @@ def workers(request):
 def tests(request):
     context = {}
     http = render(request, 'SlivaJob/test.html', context)
-    http.set_cookie()
     return http
 
 
@@ -46,16 +44,45 @@ def sign_up(request):
     return html_page
 
 
+def log_in(request):
+    html_page = None
+    if request.method == 'POST':
+        log_in_form = LogInForm(request.POST)
+        if log_in_form.is_valid():
+            email = log_in_form.cleaned_data['email']
+            password = log_in_form.cleaned_data['password']
+            user = User.objects.get(email=email)
+            if user:
+                if user.password == password:
+                    html_page = redirect('index')
+                    html_page.set_cookie('id', f'{user.id}', max_age=None)
+                else:
+                    context = {'log_in_form': log_in_form}
+                    html_page = render(request, 'SlivaJob/login.html', context)
+                    log_in_form.add_error('password', 'Неверный пароль')
+            else:
+                log_in_form.add_error('email', 'Указан неверный E-mail')
+    else:
+        log_in_form = LogInForm()
+
+    if html_page is None:
+        context = {'log_in_form': log_in_form}
+        html_page = render(request, 'SlivaJob/login.html', context)
+    return html_page
+
+
 def profile(request):
     context = {}
-    html_page = None
     id = request.COOKIES.get('id')
     if id:
-        id = int(id)
-        user = User.objects.get(id=id)
-        form = ProfileForm(instance=user)
+        user = User.objects.get(id=int(id))
+        if request.POST:
+            form = ProfileForm(request.POST, instance=user)
+            form.save()
+        else:
+            form = ProfileForm(instance=user)
         context['profile_form'] = form
-        html_page = render(request, 'SlivaJob/profile.html', context);
+        html_page = render(request, 'SlivaJob/profile.html', context)
     else:
         html_page = redirect('index')
     return html_page
@@ -63,3 +90,14 @@ def profile(request):
 
 def vacancies(request):
     return render(request, 'SlivaJob/vacancies.html')
+
+
+import django_filters
+
+
+class ProductFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='iexact')
+
+    class Meta:
+        model = User
+        fields = ['price', 'release_date']
