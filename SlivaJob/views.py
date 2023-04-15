@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import *
 from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator
 
+
 def index(request):
     context = {}
     if request.COOKIES.get('id'):
@@ -129,7 +130,24 @@ def to_employer(request):
 
 
 def to_mentor(request):
-    return render(request, 'SlivaJob/to_mentor.html')
+    context = {}
+    id = request.COOKIES.get('id')
+    if id:
+        testsList = Test.objects.filter(mentor=id)
+        skills_id = [Test_Skills.objects.filter(test_id=t.id) for t in testsList]
+        skills = []
+        if len(skills_id) != 0:
+            for arr in skills_id:
+                skills_arr = [Skill.objects.get(pk=skill.id).name for skill in arr]
+                if len(skills_arr) != 0:
+                    skills.append("\n".join(skills_arr))
+        else:
+            context['is_empty'] = True
+        tests = zip(testsList, skills)
+        context['testsList'] = tests
+        return render(request, 'SlivaJob/to_mentor.html', context)
+    else:
+        return redirect('index')
 
 
 def to_orderer(request):
@@ -141,7 +159,7 @@ def to_orderer(request):
         if request.POST:
             filter_form = FilterOrderForm(request.POST)
             if filter_form.is_valid():
-                filt =  filter_form.cleaned_data['score']
+                filt = filter_form.cleaned_data['status']
         else:
             filter_form = FilterOrderForm()
 
@@ -191,6 +209,24 @@ def create_order(request):
 
 def create_test(request):
     return render(request, 'SlivaJob/create_test.html')
+
+
+def create_question(request, test_id):
+    id = int(request.COOKIES.get('id'))
+    context = {}
+    if request.POST:
+        create_question_form = CreateQuestionForm(request.POST)
+        if create_question_form.is_valid():
+            question = create_question_form.cleaned_data['question']
+            answer1 = create_question_form.cleaned_data['answer1']
+            answer2 = create_question_form.cleaned_data['answer2']
+            answer3 = create_question_form.cleaned_data['answer3']
+            answer4 = create_question_form.cleaned_data['answer4']
+            answers = [answer1, answer2, answer3, answer4]
+            question = Test_Question.objects.create(test_id=test_id, question=question)
+    else:
+        create_question_form = CreateQuestionForm()
+    context['create_question_form'] = create_question_form
 
 
 def my_tests(request):

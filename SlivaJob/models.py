@@ -11,7 +11,8 @@ class User(models.Model):
     third_name = models.CharField(max_length=255, verbose_name="Отчество пользователя", blank=True, null=True)
     photo = models.ImageField(upload_to="media/img/usersPhotos")
 
-    password = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)], verbose_name="Пароль", default="12345678")
+    password = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)], verbose_name="Пароль",
+                                default="12345678")
     email = models.EmailField(default="defaultemail@mail.ru")
     join_date = models.DateTimeField(null=False, auto_now_add=True)
     last_login_date = models.DateTimeField(null=False, default=datetime.datetime.now())
@@ -53,9 +54,12 @@ class Skill(models.Model):
 
 
 class Test(models.Model):
-    mentor = models.ForeignKey(Mentor, on_delete=models.PROTECT)
+    mentor = models.ForeignKey(User, on_delete=models.PROTECT)
     max_score = models.IntegerField()
     name = models.CharField(max_length=255, verbose_name="Название теста", default="Test name")
+
+    def get_absolute_url(self):
+        return reverse('create_test')
 
 
 class Test_Question(models.Model):
@@ -79,6 +83,7 @@ class Order(models.Model):
 class Test_Skills(models.Model):
     test = models.ForeignKey(Test, on_delete=models.PROTECT)
     skill = models.ForeignKey(Skill, on_delete=models.PROTECT)
+
 
 class Worker_Tests(models.Model):
     worker = models.ForeignKey(Worker, on_delete=models.PROTECT)
