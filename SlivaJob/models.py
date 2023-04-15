@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+
 # Create your models here.
 
 
@@ -8,8 +9,7 @@ class User(models.Model):
     first_name = models.CharField(max_length=255, verbose_name="Имя пользователя")
     surname = models.CharField(max_length=255, verbose_name="Фамилия пользователя")
     third_name = models.CharField(max_length=255, verbose_name="Отчество пользователя", blank=True, null=True)
-    photo = models.ImageField(upload_to="images/usersPhoto")
-
+    photo = models.ImageField(upload_to="media/img/usersPhotos")
 
 
 class Worker(models.Model):
@@ -17,7 +17,6 @@ class Worker(models.Model):
     resume = models.TextField(blank=True)
     experience = models.IntegerField(null=False)
     career_status = models.BooleanField(null=False, default=True)
-
 
 
 class Mentor(models.Model):
@@ -42,6 +41,7 @@ class Skill(models.Model):
 class Test(models.Model):
     mentor = models.ForeignKey(Mentor, on_delete=models.PROTECT)
     max_score = models.IntegerField()
+
 
 class Order(models.Model):
     orderer = models.ForeignKey(Orderer, on_delete=models.PROTECT)
