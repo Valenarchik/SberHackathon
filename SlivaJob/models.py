@@ -8,12 +8,12 @@ class User(models.Model):
     third_name = models.CharField(max_length=255, verbose_name="Отчество пользователя", blank=True, null=True)
     photo = models.ImageField(upload_to="media/img/usersPhotos")
 
-    password = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)])
-    login = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)])
-    email = models.EmailField()
-    join_date = models.DateTimeField(null=False, auto_now_add=True)
-    last_login_date = models.DateTimeField(null=False)
-    is_active = models.BooleanField(null=False)
+    password = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(8)])
+    login = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(8)])
+    email = models.EmailField(default='')
+    join_date = models.DateTimeField(null=True)
+    last_login_date = models.DateTimeField(null=True)
+    is_active = models.BooleanField(default=False)
 
 
 class Worker(models.Model):
@@ -29,7 +29,7 @@ class Mentor(models.Model):
 
 
 class Orderer(models.Model):
-    orderer = models.ForeignKey(User, on_delete=models.PROTECT)
+    orderer_id = models.ForeignKey(User, on_delete=models.PROTECT)
 
 
 class Employer(models.Model):

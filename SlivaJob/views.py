@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 
 from .forms import *
+from .models import *
 
 from django.shortcuts import render
 
@@ -18,16 +19,8 @@ def workers(request):
 
 
 def tests(request):
-    context = {}
-
-    if request.method == 'POST':
-        sign_up_form = SignUpForm(request.POST)
-        # if sing_up_form.is_valid():
-        #     None
-    else:
-        sign_up_form = SignUpForm()
-    context['sing_up_form'] = sign_up_form
-    return render(request, 'SlivaJob/test.html', context)
+    return HttpResponse("profile")
+    #return render(request, 'SlivaJob/test.html', context)
 
 
 def profile(request):
@@ -36,3 +29,15 @@ def profile(request):
 
 def vacancies(request):
     return HttpResponse("vacancies")
+
+
+def registration(request):
+    context = {}
+    if request.method == 'POST':
+        sign_up_form = SignUpForm(request.POST)
+        if sign_up_form.is_valid():
+            sign_up_form.save()
+    else:
+        sign_up_form = SignUpForm()
+    context['sing_up_form'] = sign_up_form
+    return render(request, 'SlivaJob/test.html', context)
