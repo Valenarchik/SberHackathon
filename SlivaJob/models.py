@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator
 
 # Create your models here.
 
@@ -8,7 +8,19 @@ class User(models.Model):
     first_name = models.CharField(max_length=255, verbose_name="Имя пользователя")
     surname = models.CharField(max_length=255, verbose_name="Фамилия пользователя")
     third_name = models.CharField(max_length=255, verbose_name="Отчество пользователя", blank=True, null=True)
-    photo = models.ImageField(upload_to="images/usersPhoto")
+    photo = models.ImageField(upload_to="media/images/usersPhoto")
+    password = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)])
+    login = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)])
+    email = models.EmailField()
+    join_date = models.DateTimeField(null=False, auto_now_add=True)
+    last_login_date = models.DateTimeField(null=False)
+    is_active = models.BooleanField(null=False)
+
+    is_worker = models.BooleanField(null=False, default=True)
+    is_mentor = models.BooleanField(null=False, default=False)
+    is_orderer = models.BooleanField(null=False, default=False)
+    is_employer = models.BooleanField(null=False, default=False)
+
 
 
 
