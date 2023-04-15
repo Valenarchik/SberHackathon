@@ -68,8 +68,7 @@ class Test_Question(models.Model):
 
 
 class Order(models.Model):
-    orderer = models.ForeignKey(Orderer, on_delete=models.PROTECT)
-    mentor = models.ForeignKey(Mentor, on_delete=models.PROTECT)
+    orderer = models.ForeignKey(User, on_delete=models.PROTECT)
     order_name = models.CharField(max_length=255, verbose_name="Название заказа")
     description = models.TextField(blank=False, null=False)
     score = models.IntegerField(default=0, validators=[MaxValueValidator(10), MinValueValidator(0)])

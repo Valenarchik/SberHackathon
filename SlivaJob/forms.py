@@ -31,5 +31,24 @@ class ProfileForm(forms.ModelForm):
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-input'}),
             'surname': forms.TextInput(attrs={'class': 'form-input'}),
-            #'email': forms.EmailField(attrs={'class': 'email-input'}),
+            # 'email': forms.EmailField(attrs={'class': 'email-input'}),
         }
+
+
+ORDER_TYPE = [
+    ('-1', 'Все'),
+    ('0', 'Активные'),
+    ('1', 'В процессе выполнения'),
+    ('2', 'Выполненные'),
+]
+
+
+class FilterOrderForm(forms.Form):
+    score = forms.CharField(label='Выберите тип заказа', widget=forms.Select(choices=ORDER_TYPE))
+
+
+class CreateOrderForm(forms.Form):
+    order_name = forms.CharField(widget=forms.TextInput())
+    description = forms.CharField(widget=forms.Textarea())
+    score = forms.CharField(label='Выберите тип заказа', widget=forms.Select(choices=ORDER_TYPE))
+    comment = forms.CharField(widget=forms.TextInput())
