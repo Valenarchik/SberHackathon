@@ -5,5 +5,9 @@
 {% endblock %}
 
 {% block content %}
-    workers
+    <h1><strong>Соискатели</strong></h1>
+    {% for worker, user in workersList %}
+        <p>{{ worker.career_status }}</p>
+        <p>{{ user.first_name }}</p>
+    {% endfor %}
 {% endblock %}

@@ -17,7 +17,12 @@ def orders(request):
 
 
 def workers(request):
-    return HttpResponse("workers")
+    workersList = Worker.objects.all()
+    usersList = [User.objects.get(pk=w.worker_id) for w in workersList]
+    context = {
+        "workersList": zip(workersList, usersList)
+    }
+    return render(request, 'SlivaJob/workers.html', context=context)
 
 
 def tests(request):
