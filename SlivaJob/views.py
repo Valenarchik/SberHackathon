@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 
+from .forms import *
+
 from django.shortcuts import render
 
 
@@ -16,7 +18,16 @@ def workers(request):
 
 
 def tests(request):
-    return HttpResponse("tests")
+    context = {}
+
+    if request.method == 'POST':
+        sign_up_form = SignUpForm(request.POST)
+        # if sing_up_form.is_valid():
+        #     None
+    else:
+        sign_up_form = SignUpForm()
+    context['sing_up_form'] = sign_up_form
+    return render(request, 'SlivaJob/test.html', context)
 
 
 def profile(request):
