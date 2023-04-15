@@ -1,9 +1,40 @@
 {% extends 'SlivaJob/base.html' %}
 
 {% block title %}
-    Работодателю
+    Заказщику
 {% endblock %}
 
 {% block content %}
-    None
+    <p>Ваши заказы</p>
+    <form action="">
+    {#Фильтр по активному заказу#}
+    </form>
+    {% for order in orders %}
+        {% if order.status == 0 %}
+            {#Заказ активен#}
+        <div>
+            <p>{{ order.order_name }}</p>
+            <p>{{ order.description }}</p>
+            <p>{{ order.comment }}</p>
+        </div>
+        {% endif %}
+
+        {% if order.status == 1 %}
+            {#Заказ взят#}
+        <div>
+            <p>{{ order.order_name }}</p>
+            <p>{{ order.description }}</p>
+            <p>{{ order.comment }}</p>
+        </div>
+        {% endif %}
+
+        {% if order.status == 2 %}
+            {#Заказ зактыт#}
+        <div>
+            <p>{{ order.order_name }}</p>
+            <p>{{ order.description }}</p>
+            <p>{{ order.comment }}</p>
+        </div>
+        {% endif %}
+    {% endfor %}
 {% endblock %}
