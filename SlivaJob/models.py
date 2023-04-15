@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator
 
 
@@ -8,12 +9,16 @@ class User(models.Model):
     third_name = models.CharField(max_length=255, verbose_name="Отчество пользователя", blank=True, null=True)
     photo = models.ImageField(upload_to="media/img/usersPhotos")
 
+    # about = models.TextField(blank=True, default='')
+
     password = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(8)])
-    login = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(8)])
     email = models.EmailField(default='')
     join_date = models.DateTimeField(null=True)
     last_login_date = models.DateTimeField(null=True)
     is_active = models.BooleanField(default=False)
+
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'chart_slug': self.slug})
 
 
 class Worker(models.Model):

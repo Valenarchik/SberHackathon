@@ -5,5 +5,11 @@
 {% endblock %}
 
 {% block content %}
-    workers
+     {% for worker in workers %}
+            <div>
+                <p>{{ worker.first_name }}</p>
+                <p>{{ worker.surname }}</p>
+                <p>{{ worker.email }}</p>
+            </div>
+        {% endfor %}
 {% endblock %}
