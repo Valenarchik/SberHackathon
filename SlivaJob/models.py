@@ -5,7 +5,7 @@ from django.db import models
 
 
 class User(models.Model):
-    name = models.CharField(max_length=255, varbase_name="Имя пользователя")
+    name = models.CharField(max_length=255, verbose_name="Имя пользователя")
 
 
 class Worker(models.Model):
@@ -25,7 +25,7 @@ class Employer(models.Model):
 
 
 class Skill(models.Model):
-    name = models.CharField(max_length=255, varbase_name="Название навыка")
+    name = models.CharField(max_length=255, verbose_name="Название навыка")
     description = models.TextField(blank=True)
 
 
