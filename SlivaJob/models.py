@@ -47,6 +47,7 @@ class Skill(models.Model):
     description = models.TextField(blank=True)
 
 
+
 class Test(models.Model):
     mentor = models.ForeignKey(Mentor, on_delete=models.PROTECT)
     max_score = models.IntegerField()
