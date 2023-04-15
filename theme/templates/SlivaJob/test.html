@@ -1,9 +1,14 @@
 {% extends 'SlivaJob/base.html' %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {{ sing_up_form.as_p }}
-        <button type="submit" value="Зарегистрироваться" name="submit">Зарегистрироваться</button>
-    </form>
+    <h1><strong>{{ test.name }}</strong></h1>
+    {% for question, variants in questions%}
+        <div>
+        <h2><strong>{{ question.question }}</strong></h2>
+        {% for variant in variants %}
+            <input type="radio" id="{{ variant }}" name="{{ question.id}}" value="{{ variant }}">
+            <label for="{{ variant }}">{{ variant }}</label>
+        {% endfor %}
+        </div>
+    {% endfor %}
 {% endblock %}

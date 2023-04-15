@@ -5,5 +5,21 @@
 {% endblock %}
 
 {% block content %}
-    tests
+    <h1><strong>Тесты</strong></h1>
+    <table>
+        <tr>
+            <th><strong>Название теста</strong></th>
+            <th><strong>Максимальный балл</strong></th>
+            <th><strong>Компетенции</strong></th>
+            <th><strong>Ссылка</strong></th>
+        </tr>
+    </table>
+    {% for test, skills in  testsList %}
+        <tr>
+            <td>{{ test.name }}</td>
+            <td>{{ test.max_score }}</td>
+            <td>{{ skills }}</td>
+            <td><a href="../test/{{ test.id }}">Ссылка на тест</a></td>
+        </tr>
+    {% endfor %}
 {% endblock %}

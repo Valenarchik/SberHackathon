@@ -13,19 +13,48 @@ def index(request):
 
 
 def orders(request):
-    return render(request, 'SlivaJob/orders.html')
+    context = {
+        "ordersList": Order.objects.all()
+    }
+    return render(request, 'SlivaJob/orders.html', context=context)
 
 
 def workers(request):
-    return render(request, 'SlivaJob/workers.html')
+    workersList = Worker.objects.all()
+    usersList = [User.objects.get(pk=w.worker_id) for w in workersList]
+    context = {
+        "workersList": zip(workersList, usersList)
+    }
+    return render(request, 'SlivaJob/workers.html', context=context)
 
 
 def tests(request):
-    context = {}
-    http = render(request, 'SlivaJob/test.html', context)
+    testsList = Test.objects.all()
+    skills_id = [Test_Skills.objects.filter(test_id=t.id)for t in testsList]
+    skills = []
+    if len(skills_id) != 0:
+        for arr in skills_id:
+            skills_arr = [Skill.objects.get(pk=skill.id).name for skill in arr]
+            if len(skills_arr) != 0:
+                skills.append("\n".join(skills_arr))
+    tests = zip(testsList, skills)
+    context = {
+        'testsList': tests
+    }
+    http = render(request, 'SlivaJob/tests.html', context)
+    #http.set_cookie()
     return http
 
 
+def test(request, test_id):
+    questions = Test_Question.objects.filter(test_id=test_id)
+    variants = [q.variants.split('|') for q in questions]
+    questionsPairs = zip(questions, variants)
+    context = {
+        'questions': questionsPairs,
+        'test': Test.objects.get(pk=test_id)
+    }
+    return render(request, f'SlivaJob/test.html', context)
 def sign_up(request):
     html_page = None
     if request.method == 'POST':
