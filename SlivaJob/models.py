@@ -42,9 +42,14 @@ class Employer(models.Model):
     company_name = models.CharField(max_length=255, verbose_name="Название организации")
 
 
+class Skills_Group(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Название группы навыков")
+
+
 class Skill(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название навыка")
     description = models.TextField(blank=True)
+    group = models.ForeignKey(Skills_Group, on_delete=models.PROTECT)
 
 
 class Test(models.Model):
