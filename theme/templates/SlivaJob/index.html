@@ -1,12 +1,13 @@
 {% extends 'SlivaJob/base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% block title %}
+    Главная страница
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+    {% if is_log_in %}
+        Зареган
+    {% else %}
+        Не зареган
+    {% endif %}
+{% endblock %}

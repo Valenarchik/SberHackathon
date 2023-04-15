@@ -1,12 +1,19 @@
 from django.http import HttpResponse
 
 from .forms import *
+from .models import *
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 
 def index(request):
-    return render(request, 'SlivaJob/index.html')
+    context ={}
+    if request.COOKIES.get('id'):
+        context['is_log_in'] = True
+    else:
+        context['is_log_in'] = False
+
+    return render(request, 'SlivaJob/index.html', context)
 
 
 def orders(request):
@@ -27,20 +34,42 @@ def workers(request):
 
 def tests(request):
     context = {}
+    http = render(request, 'SlivaJob/test.html', context)
+    http.set_cookie()
+    return http
 
+
+def sign_up(request):
+    html_page = None
     if request.method == 'POST':
         sign_up_form = SignUpForm(request.POST)
-        # if sing_up_form.is_valid():
-        #     None
+        if sign_up_form.is_valid():
+            user = sign_up_form.save()
+            html_page = redirect('index')
+            html_page.set_cookie('id', f'{user.id}', max_age=None)
+        else:
+            context = {'sing_up_form': sign_up_form}
+            html_page = render(request, 'SlivaJob/signup.html', context)
     else:
         sign_up_form = SignUpForm()
-    context['sing_up_form'] = sign_up_form
-    return render(request, 'SlivaJob/test.html', context)
+        context = {'sing_up_form': sign_up_form}
+        html_page = render(request, 'SlivaJob/signup.html',context )
+    return html_page
 
 
 def profile(request):
-    return HttpResponse("profile")
+    context = {}
+    html_page = None
+    id = request.COOKIES.get('id')
+    if id:
+        id = int(id)
+        form = ProfileForm(User.objects.get(id=id))
+        context['profile_form'] = form
+        html_page = render(request, 'SlivaJob/profile.html', context);
+    else:
+        html_page = redirect('index')
+    return html_page
 
 
 def vacancies(request):
-    return HttpResponse("vacancies")
+    return render(request, 'SlivaJob/vacancies.html')
