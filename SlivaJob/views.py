@@ -14,7 +14,7 @@ def index(request):
 
 def orders(request):
     all_orders = []
-    user_id = request.COOKIES.get('id')
+    user_id = int(request.COOKIES.get('id'))
     worker = Worker.objects.get(worker_id=user_id)
     worker_skills_id = Worker_Skills.objects.filter(worker_id=worker.id)
     for order in Order.objects.all():

@@ -48,7 +48,7 @@ class FilterOrderForm(forms.Form):
 
 
 class CreateOrderForm(forms.Form):
-    order_name = forms.CharField(widget=forms.TextInput())
-    description = forms.CharField(widget=forms.Textarea())
-    score = forms.CharField(label='Выберите тип заказа', widget=forms.Select(choices=ORDER_TYPE))
-    comment = forms.CharField(widget=forms.TextInput())
+    order_name = forms.CharField(label='Название', widget=forms.TextInput())
+    description = forms.CharField(label='Описание', widget=forms.Textarea())
+    score = forms.CharField(label='Выберите тип', widget=forms.Select(choices=ORDER_TYPE))
+    comment = forms.CharField(label='Комментарий', widget=forms.TextInput())
