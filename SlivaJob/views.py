@@ -25,10 +25,7 @@ def workers(request):
 
 
 def tests(request):
-    context = {}
-    http = render(request, 'SlivaJob/test.html', context)
-    http.set_cookie()
-    return http
+    return render(request, 'SlivaJob/tests.html')
 
 
 def sign_up(request):
@@ -45,8 +42,12 @@ def sign_up(request):
     else:
         sign_up_form = SignUpForm()
         context = {'sing_up_form': sign_up_form}
-        html_page = render(request, 'SlivaJob/signup.html',context )
+        html_page = render(request, 'SlivaJob/signup.html', context)
     return html_page
+
+
+def login(request):
+    return render(request, 'SlivaJob/login.html')
 
 
 def profile(request):

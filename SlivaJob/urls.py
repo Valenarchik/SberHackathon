@@ -11,10 +11,9 @@ urlpatterns = [
     path('tests', tests, name='tests'),
     path('profile', profile, name='profile'),
     path('vacancies', vacancies, name='vacancies'),
-    path('sign_up', sign_up, name='sign_up')
-
+    path('sign_up', sign_up, name='sign_up'),
+    path('login', login, name='login'),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
