@@ -9,3 +9,8 @@ class SignUpForm(forms.ModelForm):
         widgets = {
              'password': forms.PasswordInput(),
         }
+
+class LogInForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['login', '']

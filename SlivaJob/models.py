@@ -2,9 +2,6 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-# Create your models here.
-
-
 class User(models.Model):
     first_name = models.CharField(max_length=255, verbose_name="Имя пользователя")
     surname = models.CharField(max_length=255, verbose_name="Фамилия пользователя")

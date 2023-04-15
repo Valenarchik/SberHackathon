@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 
-from forms import *
+from .forms import *
 
 from django.shortcuts import render
 
@@ -26,7 +26,7 @@ def tests(request):
         #     None
     else:
         sing_up_form = SignUpForm()
-    context['sing_up_form'] = sing_up_form
+    context['sign_up_form'] = sing_up_form
     return HttpResponse("tests")
 
 
