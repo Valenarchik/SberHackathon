@@ -6,112 +6,117 @@
 {% endblock %}
 
 {% block content %}
-    <p>Ваши заказы</p>
-    <form method="post" class="max-w-sm w-full mx-auto bg-white p-8 rounded-md shadow-md">
-        {% csrf_token %}
-        {{ filter_form }}
-        <button type="submit" value="Apply" name="submit"
-                class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300">
-            Применить
-        </button>
-    </form>
-    {#Фильтр по активному заказу#}
-    {% for order in orders %}
-        {% if order.status == 0 %}
-            {#Заказ активен#}
-            <div class="shadow-lg transition duration-500 ease-in-out transform rounded-lg w-full overflow-hidden border mb-6">
-                <div class="bg-white w-full p-4">
-                    <p class="text-indigo-500 font-medium text-3xl mb-2">
-                        {{ order.order_name }}
-                    </p>
-                    <p class="text-gray-800 text-lg font-medium mb-2">
-                        Количество баллов за задание: {{ order.score }}
-                    </p>
-                    <p class="text-gray-800 text-lg font-medium mb-2">
-                        Статус: <span class="text-green-500">Открытый</span> {{ order.status }}
-                    </p>
-                    <div class="border-t-2"></div>
-                    <div class="text-gray-800 text-lg font-medium mb-2">
-                        <h3 class="font-bold text-lg mb-2">Описание:</h3>
-                        <p class="ml-2">
-                            {{ order.description }}
+    <div class="max-w-6xl my-8 w-full mx-auto bg-white py-4 px-8 rounded-md shadow-md">
+        <h1 class="font-bold text-2xl mb-3">Ваши заказы</h1>
+        <form method="post" class="flex flex-row items-center max-w-md w-full bg-white py-2 px-4 rounded-md border-2 mb-4 [&>div>select]:focus:outline-none [&>div>select]:border [&>div>select]:text-gray-700 [&>div>select]:rounded-lg [&>div>select]:py-2 [&>div>select]:bg-white [&>div>select]:leading-normal [&>div>select]:block [&>div>select]:px-4 [&>div>select]:border-gray-300 [&>div>select]:appearance-none [&>div>select]:w-full [&>lable]:block [&>lable]:text-gray-700 [&>lable]:text-sm [&>lable]:font-bold [&>lable]:mb-2">
+            <div class="mb-4 mr-4">
+                {% csrf_token %}
+                <lable>
+                    Отфильтровать по статусу
+                </lable>
+                {{ filter_form.status }}
+            </div>
+            <button type="submit" value="Apply" name="submit"
+                    class="bg-indigo-500 text-white text-sm font-bold h-12 py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300">
+                Применить
+            </button>
+        </form>
+        {#Фильтр по активному заказу#}
+        {% for order in orders %}
+            {% if order.status == 0 %}
+                {#Заказ активен#}
+                <div class="transform rounded-lg w-full overflow-hidden border-2 mb-6">
+                    <div class="bg-white w-full p-4">
+                        <p class="text-indigo-500 font-medium text-3xl mb-2">
+                            {{ order.order_name }}
                         </p>
-                    </div>
-                    <div class="border-t-2"></div>
-                    <div class="text-gray-800 text-lg font-medium mb-2">
-                        <h3 class="font-bold text-lg mb-2">Комментарий к заданию:</h3>
-                        <p class="ml-2">
-                            {{ order.comment }}
+                        <p class="text-gray-800 text-lg font-medium mb-2">
+                            Количество баллов за задание: {{ order.score }}
                         </p>
+                        <p class="text-gray-800 text-lg font-medium mb-2 bg-green-100 rounded-xl inline-block p-2">
+                            Статус: <span class="text-green-500">Открытый</span>
+                        </p>
+                        <div class="border-t-2"></div>
+                        <div class="text-gray-800 text-lg font-medium mb-2">
+                            <h3 class="font-bold text-lg mb-2">Описание:</h3>
+                            <p class="ml-2">
+                                {{ order.description }}
+                            </p>
+                        </div>
+                        <div class="border-t-2"></div>
+                        <div class="text-gray-800 text-lg font-medium mb-2">
+                            <h3 class="font-bold text-lg mb-2">Комментарий к заданию:</h3>
+                            <p class="ml-2">
+                                {{ order.comment }}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% elif order.status == 1 %}
-            {#Заказ взят#}
-            <div class="shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-5 hover:shadow-2xl rounded-lg w-full cursor-pointer overflow-hidden border mb-6">
-                <div class="bg-white w-full p-4">
-                    <p class="text-indigo-500 font-medium text-3xl mb-2">
-                        {{ order.order_name }}
-                    </p>
-                    <p class="text-gray-800 text-lg font-medium mb-2">
-                        Количество баллов за задание: {{ order.score }}
-                    </p>
-                    <p class="text-gray-800 text-lg font-medium mb-2">
-                        Статус: <span class="text-Orange-500">Выполняется</span> {{ order.status }}
-                    </p>
-                    <div class="border-t-2"></div>
-                    <div class="text-gray-800 text-lg font-medium mb-2">
-                        <h3 class="font-bold text-lg mb-2">Описание:</h3>
-                        <p class="ml-2">
-                            {{ order.description }}
+            {% elif order.status == 1 %}
+                {#Заказ взят#}
+                <div class="transform rounded-lg w-full overflow-hidden border-2 mb-6">
+                    <div class="bg-white w-full p-4">
+                        <p class="text-indigo-500 font-medium text-3xl mb-2">
+                            {{ order.order_name }}
                         </p>
-                    </div>
-                    <div class="border-t-2"></div>
-                    <div class="text-gray-800 text-lg font-medium mb-2">
-                        <h3 class="font-bold text-lg mb-2">Комментарий к заданию:</h3>
-                        <p class="ml-2">
-                            {{ order.comment }}
+                        <p class="text-gray-800 text-lg font-medium mb-2">
+                            Количество баллов за задание: {{ order.score }}
                         </p>
-                    </div>
-                </div>
-            </div>
-        {% elif order.status == 2 %}
-            {#Заказ зактыт#}
-            <div class="shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-5 hover:shadow-2xl rounded-lg w-full cursor-pointer overflow-hidden border mb-6">
-                <div class="bg-white w-full p-4">
-                    <p class="text-indigo-500 font-medium text-3xl mb-2">
-                        {{ order.order_name }}
-                    </p>
-                    <p class="text-gray-800 text-lg font-medium mb-2">
-                        Количество баллов за задание: {{ order.score }}
-                    </p>
-                    <p class="text-gray-800 text-lg font-medium mb-2">
-                        Статус: <span class="text-green-500">Завершён</span>
-                    </p>
-                    <div class="border-t-2"></div>
-                    <div class="text-gray-800 text-lg font-medium mb-2">
-                        <h3 class="font-bold text-lg mb-2">Описание:</h3>
-                        <p class="ml-2">
-                            {{ order.description }}
+                        <p class="text-or-800 text-lg font-medium mb-2 bg-orange-100 rounded-xl inline-block p-2">
+                            Статус: <span class="text-orange-500">Выполняется</span>
                         </p>
-                    </div>
-                    <div class="border-t-2"></div>
-                    <div class="text-gray-800 text-lg font-medium mb-2">
-                        <h3 class="font-bold text-lg mb-2">Комментарий к заданию:</h3>
-                        <p class="ml-2">
-                            {{ order.comment }}
-                        </p>
+                        <div class="border-t-2"></div>
+                        <div class="text-gray-800 text-lg font-medium mb-2">
+                            <h3 class="font-bold text-lg mb-2">Описание:</h3>
+                            <p class="ml-2">
+                                {{ order.description }}
+                            </p>
+                        </div>
+                        <div class="border-t-2"></div>
+                        <div class="text-gray-800 text-lg font-medium mb-2">
+                            <h3 class="font-bold text-lg mb-2">Комментарий к заданию:</h3>
+                            <p class="ml-2">
+                                {{ order.comment }}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endif %}
-    {% endfor %}
+            {% elif order.status == 2 %}
+                {#Заказ зактыт#}
+                <div class="transform rounded-lg w-full overflow-hidden border-2 mb-6">
+                    <div class="bg-white w-full p-4">
+                        <p class="text-indigo-500 font-medium text-3xl mb-2">
+                            {{ order.order_name }}
+                        </p>
+                        <p class="text-gray-800 text-lg font-medium mb-2">
+                            Количество баллов за задание: {{ order.score }}
+                        </p>
+                        <p class="text-gray-800 text-lg font-medium mb-2 bg-zinc-100 rounded-xl inline-block p-2">
+                            Статус: <span class="text-zinc-500">Завершён</span>
+                        </p>
+                        <div class="border-t-2"></div>
+                        <div class="text-gray-800 text-lg font-medium mb-2">
+                            <h3 class="font-bold text-lg mb-2">Описание:</h3>
+                            <p class="ml-2">
+                                {{ order.description }}
+                            </p>
+                        </div>
+                        <div class="border-t-2"></div>
+                        <div class="text-gray-800 text-lg font-medium mb-2">
+                            <h3 class="font-bold text-lg mb-2">Комментарий к заданию:</h3>
+                            <p class="ml-2">
+                                {{ order.comment }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
 
-    <div class="button">
-        <button>
-            <a href="{% url 'create_order' %}"
-               class="block py-2 l-3 pr-4 mr-3 text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Создать
-                заказ</a>
-        </button>
+        <div class="button">
+            <button class="bg-indigo-500 text-white text-sm font-bold py-3 px-4 mb-2 rounded-md hover:bg-indigo-600 transition duration-300">
+                <a href="{% url 'create_order' %}">Создать новый заказ</a>
+            </button>
+        </div>
     </div>
 {% endblock %}
