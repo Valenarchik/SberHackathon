@@ -52,6 +52,7 @@ class Skills_Orders(models.Model):
     skill_id = models.ForeignKey(Skill, on_delete=models.PROTECT)
     order_id = models.ForeignKey(Order, on_delete=models.PROTECT)
 
+
 class Workers_Orders(models.Model):
     worker_id = models.ForeignKey(Worker, on_delete=models.PROTECT)
     order_id = models.ForeignKey(Order, on_delete=models.PROTECT)
