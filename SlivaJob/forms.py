@@ -5,13 +5,16 @@ from .models import *
 class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['name', 'surname', 'email', 'password']
         widgets = {
-             'password': forms.PasswordInput(),
+            'password': forms.PasswordInput(),
         }
 
 
 class LogInForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['login', '']
+        fields = ['email', 'password']
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
