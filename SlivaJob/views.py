@@ -30,7 +30,7 @@ def workers(request):
 
 def tests(request):
     testsList = Test.objects.all()
-    skills_id = [Test_Skills.objects.filter(test_id=t.id)for t in testsList]
+    skills_id = [Test_Skills.objects.filter(test_id=t.id) for t in testsList]
     skills = []
     if len(skills_id) != 0:
         for arr in skills_id:
@@ -42,7 +42,6 @@ def tests(request):
         'testsList': tests
     }
     http = render(request, 'SlivaJob/tests.html', context)
-    #http.set_cookie()
     return http
 
 
@@ -55,6 +54,8 @@ def test(request, test_id):
         'test': Test.objects.get(pk=test_id)
     }
     return render(request, f'SlivaJob/test.html', context)
+
+
 def sign_up(request):
     html_page = None
     if request.method == 'POST':
@@ -80,7 +81,7 @@ def log_in(request):
         if log_in_form.is_valid():
             email = log_in_form.cleaned_data['email']
             password = log_in_form.cleaned_data['password']
-            user = User.objects.get(email=email)
+            user = User.objects.filter(email=email)
             if user:
                 if user.password == password:
                     html_page = redirect('index')
@@ -125,13 +126,15 @@ def to_employee(request):
     return render(request, 'SlivaJob/to_employee.html')
 
 
-def to_employer(request):
-    return render(request, 'SlivaJob/to_employer.html')
-
-
 def to_mentor(request):
     return render(request, 'SlivaJob/to_mentor.html')
 
 
 def to_orderer(request):
-    return render(request, 'SlivaJob/to_orderer.html')
+    html_page = None
+    id = request.COOKIES.get('id')
+    if id:
+        orders = Order.objects.filter(id=int(id))
+
+    return html_page
+
