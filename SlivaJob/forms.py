@@ -48,10 +48,10 @@ class FilterOrderForm(forms.Form):
 
 
 class CreateOrderForm(forms.Form):
-    order_name = forms.CharField(widget=forms.TextInput())
-    description = forms.CharField(widget=forms.Textarea())
-    score = forms.IntegerField(validators=[MaxValueValidator(0), ])
-    comment = forms.CharField(widget=forms.TextInput())
+    order_name = forms.CharField(label='Название', widget=forms.TextInput())
+    description = forms.CharField(label='Описание', widget=forms.Textarea())
+    score = forms.IntegerField(label='Количество баллов', validators=[MinValueValidator(0), MaxValueValidator(10)])
+    comment = forms.CharField(label='Комментарий', widget=forms.TextInput())
 
 
 class CreateQuestionForm(forms.Form):

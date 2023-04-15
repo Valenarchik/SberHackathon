@@ -14,6 +14,18 @@ def index(request):
 
 
 def orders(request):
+    all_orders = []
+    user_id = int(request.COOKIES.get('id'))
+    w = Worker.objects.create(resume='resume', experience=10, career_status=1, worker_id=user_id)
+    w.save()
+    worker = Worker.objects.get(worker_id=w.worker_id)
+    worker_skills_id = Worker_Skills.objects.filter(worker_id=worker.id)
+    for order in Order.objects.all():
+        for skills in Skills_Orders.objects.filter(order_id=order.id):
+            current_skills_id = [skill.id for skill in skills]
+            for worker_skill_id in worker_skills_id:
+                if current_skills_id.__contains__(worker_skill_id):
+                    all_orders.append(order)
     context = {
         "ordersList": Order.objects.all()
     }

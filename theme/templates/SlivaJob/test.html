@@ -1,14 +1,26 @@
 {% extends 'SlivaJob/base.html' %}
 
 {% block content %}
-    <h1><strong>{{ test.name }}</strong></h1>
-    {% for question, variants in questions%}
-        <div>
-        <h2><strong>{{ question.question }}</strong></h2>
-        {% for variant in variants %}
-            <input type="radio" id="{{ variant }}" name="{{ question.id}}" value="{{ variant }}">
-            <label for="{{ variant }}">{{ variant }}</label>
-        {% endfor %}
-        </div>
-    {% endfor %}
+    <div class="max-w-4xl mt-8 w-full mx-auto bg-white py-4 px-8 rounded-md shadow-md">
+        <h1 class="font-bold text-2xl mb-3">{{ test.name }}</h1>
+        <ol class="list-decimal list-inside">
+            {% for question, variants in questions %}
+                <div class="flex flex-row">
+                    <li class="mb-3 marker:font-bold marker:text-lg">
+                        <h2 class="inline-block font-bold text-lg mb-1">{{ question.question }}</h2>
+                        <div class="flex flex-col">
+                            {% for variant in variants %}
+                                <div class="flex items-center mb-2">
+                                    <input type="radio" id="{{ variant }}" name="{{ question.id }}"
+                                           value="{{ variant }}">
+                                    <label class="ml-3 tracking-tight hover:cursor-pointer"
+                                           for="{{ variant }}">{{ variant }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </li>
+                </div>
+            {% endfor %}
+        </ol>
+    </div>
 {% endblock %}
