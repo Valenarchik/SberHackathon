@@ -119,3 +119,19 @@ def profile(request):
 
 def vacancies(request):
     return render(request, 'SlivaJob/vacancies.html')
+
+
+def to_employee(request):
+    return render(request, 'SlivaJob/to_employee.html')
+
+
+def to_employer(request):
+    return render(request, 'SlivaJob/to_employer.html')
+
+
+def to_mentor(request):
+    return render(request, 'SlivaJob/to_mentor.html')
+
+
+def to_orderer(request):
+    return render(request, 'SlivaJob/to_orderer.html')
