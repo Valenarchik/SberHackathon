@@ -138,3 +138,7 @@ def to_orderer(request):
 
     return html_page
 
+
+def test_page(request):
+    form = UserForm()
+    return render(request, 'SlivaJob/test_page.html')
