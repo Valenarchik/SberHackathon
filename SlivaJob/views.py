@@ -1,13 +1,10 @@
-from django.http import HttpResponse
-
 from .forms import *
-from .models import *
 
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 
 
 def index(request):
-    context ={}
+    context = {}
     if request.COOKIES.get('id'):
         context['is_log_in'] = True
     else:
@@ -53,7 +50,7 @@ def sign_up(request):
     else:
         sign_up_form = SignUpForm()
         context = {'sing_up_form': sign_up_form}
-        html_page = render(request, 'SlivaJob/signup.html',context )
+        html_page = render(request, 'SlivaJob/signup.html', context)
     return html_page
 
 
@@ -63,7 +60,8 @@ def profile(request):
     id = request.COOKIES.get('id')
     if id:
         id = int(id)
-        form = ProfileForm(User.objects.get(id=id))
+        user = User.objects.get(id=id)
+        form = ProfileForm(instance=user)
         context['profile_form'] = form
         html_page = render(request, 'SlivaJob/profile.html', context);
     else:
