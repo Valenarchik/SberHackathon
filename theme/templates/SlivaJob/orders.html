@@ -5,5 +5,8 @@
 {% endblock %}
 
 {% block content %}
-    Orders
+    <h1><strong>Текущие заказы</strong></h1>
+    {% for order in ordersList %}
+        <p>{{ order.order_name }}</p>
+    {% endfor %}
 {% endblock %}

@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator
@@ -9,13 +11,11 @@ class User(models.Model):
     third_name = models.CharField(max_length=255, verbose_name="Отчество пользователя", blank=True, null=True)
     photo = models.ImageField(upload_to="media/img/usersPhotos")
 
-    # about = models.TextField(blank=True, default='')
-
-    password = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(8)])
-    email = models.EmailField(default='')
-    join_date = models.DateTimeField(null=True)
-    last_login_date = models.DateTimeField(null=True)
-    is_active = models.BooleanField(default=False)
+    password = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)], default="12345678")
+    email = models.EmailField(default="defaultemail@mail.ru")
+    join_date = models.DateTimeField(null=False, auto_now_add=True)
+    last_login_date = models.DateTimeField(null=False, default=datetime.datetime.now())
+    is_active = models.BooleanField(null=False, default=False)
 
     # def get_absolute_url(self):
     #    return reverse('profile', kwargs={'chart_slug': self.slug})
@@ -34,7 +34,7 @@ class Mentor(models.Model):
 
 
 class Orderer(models.Model):
-    orderer_id = models.ForeignKey(User, on_delete=models.PROTECT)
+    orderer = models.ForeignKey(User, on_delete=models.PROTECT)
 
 
 class Employer(models.Model):
@@ -50,6 +50,16 @@ class Skill(models.Model):
 class Test(models.Model):
     mentor = models.ForeignKey(Mentor, on_delete=models.PROTECT)
     max_score = models.IntegerField()
+    name = models.CharField(max_length=255, verbose_name="Название теста", default="Test name")
+
+
+class Test_Question(models.Model):
+    test = models.ForeignKey(Test, on_delete=models.PROTECT)
+    question = models.TextField(blank=False, default="Вопрос не задан")
+    variants = models.TextField(blank=False, default="Вариант ответа")
+    correct_index = models.IntegerField(default=0)
+    correct = models.TextField(default="Правильный вариант ответа")
+    score = models.IntegerField(default=1)
 
 
 class Order(models.Model):
@@ -59,7 +69,12 @@ class Order(models.Model):
     description = models.TextField(blank=False, null=False)
     score = models.IntegerField(default=0, validators=[MaxValueValidator(10), MinValueValidator(0)])
     comment = models.TextField(blank=True)
+    status = models.IntegerField(default=0)
 
+
+class Test_Skills(models.Model):
+    test = models.ForeignKey(Test, on_delete=models.PROTECT)
+    skill = models.ForeignKey(Skill, on_delete=models.PROTECT)
 
 class Worker_Tests(models.Model):
     worker = models.ForeignKey(Worker, on_delete=models.PROTECT)

@@ -8,7 +8,7 @@ class SignUpForm(forms.ModelForm):
         model = User
         fields = ('first_name', 'surname', 'email', 'password')
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-input'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-input '}),
             'surname': forms.TextInput(attrs={'class': 'form-input'}),
             'email': forms.TextInput(attrs={'class': 'email-input'}),
             'password': forms.PasswordInput(attrs={'class': 'form-input'})
