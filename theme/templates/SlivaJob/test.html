@@ -1,0 +1,8 @@
+{% extends 'SlivaJob/base.html' %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ sing_up_form.as_p }}
+    </form>
+{% endblock %}

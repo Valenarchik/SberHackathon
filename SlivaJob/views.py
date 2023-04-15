@@ -21,13 +21,13 @@ def tests(request):
     context = {}
 
     if request.method == 'POST':
-        sing_up_form = SignUpForm(request.POST)
+        sign_up_form = SignUpForm(request.POST)
         # if sing_up_form.is_valid():
         #     None
     else:
-        sing_up_form = SignUpForm()
-    context['sign_up_form'] = sing_up_form
-    return HttpResponse("tests")
+        sign_up_form = SignUpForm()
+    context['sing_up_form'] = sign_up_form
+    return render(request, 'SlivaJob/test.html', context)
 
 
 def profile(request):
