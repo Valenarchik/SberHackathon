@@ -5,15 +5,23 @@ from django.db import models
 
 
 class User(models.Model):
+    first_name = models.CharField(max_length=255, verbose_name="Имя пользователя")
+    surname = models.CharField(max_length=255, verbose_name="Имя пользователя")
     name = models.CharField(max_length=255, verbose_name="Имя пользователя")
+
 
 
 class Worker(models.Model):
     worker_id = models.ForeignKey(User, on_delete=models.PROTECT)
+    resume = models.TextField(blank=True)
+    experience = models.IntegerField(null=False)
+    career_status = models.BooleanField(null=False, default=True)
+
 
 
 class Mentor(models.Model):
     mentor_id = models.ForeignKey(User, on_delete=models.PROTECT)
+    description = models.TextField(blank=True)
 
 
 class Orderer(models.Model):
