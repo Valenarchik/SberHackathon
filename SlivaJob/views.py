@@ -22,11 +22,11 @@ def tests(request):
 
     if request.method == 'POST':
         sing_up_form = SignUpForm(request.POST)
-        if sing_up_form.is_valid():
-            None
+        # if sing_up_form.is_valid():
+        #     None
     else:
         sing_up_form = SignUpForm()
-    context['form'] = sing_up_form
+    context['sing_up_form'] = sing_up_form
     return HttpResponse("tests")
 
 
