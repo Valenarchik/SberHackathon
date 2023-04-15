@@ -1,13 +1,14 @@
 from django.db import models
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
 
 class User(models.Model):
     first_name = models.CharField(max_length=255, verbose_name="Имя пользователя")
-    surname = models.CharField(max_length=255, verbose_name="Имя пользователя")
-    name = models.CharField(max_length=255, verbose_name="Имя пользователя")
+    surname = models.CharField(max_length=255, verbose_name="Фамилия пользователя")
+    third_name = models.CharField(max_length=255, verbose_name="Отчество пользователя", blank=True, null=True)
+    photo = models.ImageField(upload_to="images/usersPhoto")
 
 
 
@@ -28,8 +29,10 @@ class Orderer(models.Model):
     orderer_id = models.ForeignKey(User, on_delete=models.PROTECT)
 
 
+
 class Employer(models.Model):
     employer_id = models.ForeignKey(User, on_delete=models.PROTECT)
+    company_name = models.CharField(max_length=255, verbose_name="Название организации")
 
 
 class Skill(models.Model):
@@ -39,16 +42,21 @@ class Skill(models.Model):
 
 class Test(models.Model):
     mentor_id = models.ForeignKey(Mentor, on_delete=models.PROTECT)
-
+    max_score = models.IntegerField()
 
 class Order(models.Model):
     orderer_id = models.ForeignKey(Orderer, on_delete=models.PROTECT)
     mentor_id = models.ForeignKey(Mentor, on_delete=models.PROTECT)
+    order_name = models.CharField(max_length=255, verbose_name="Название заказа")
+    description = models.TextField(blank=False, null=False)
+    score = models.IntegerField(default=0, validators=[MaxValueValidator(10), MinValueValidator(0)])
+    comment = models.TextField(blank=True)
 
 
 class Worker_Tests(models.Model):
     worker_id = models.ForeignKey(Worker, on_delete=models.PROTECT)
     test_id = models.ForeignKey(Test, on_delete=models.PROTECT)
+    score = models.IntegerField()
 
 
 class Worker_Skills(models.Model):
