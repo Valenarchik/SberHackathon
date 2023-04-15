@@ -11,7 +11,6 @@ class User(models.Model):
     photo = models.ImageField(upload_to="media/img/usersPhotos")
 
     password = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)], default="12345678")
-    login = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(8)], default="loginlkja")
     email = models.EmailField(default="defaultemail@mail.ru")
     join_date = models.DateTimeField(null=False, auto_now_add=True)
     last_login_date = models.DateTimeField(null=False, default=datetime.datetime.now())
@@ -47,6 +46,16 @@ class Skill(models.Model):
 class Test(models.Model):
     mentor = models.ForeignKey(Mentor, on_delete=models.PROTECT)
     max_score = models.IntegerField()
+    name = models.CharField(max_length=255, verbose_name="Название теста", default="Test name")
+
+
+class Test_Question(models.Model):
+    test = models.ForeignKey(Test, on_delete=models.PROTECT)
+    question = models.TextField(blank=False, default="Вопрос не задан")
+    variants = models.TextField(blank=False, default="Вариант ответа")
+    correct_index = models.IntegerField(default=0)
+    correct = models.TextField(default="Правильный вариант ответа")
+    score = models.IntegerField(default=1)
 
 
 class Order(models.Model):
@@ -58,6 +67,10 @@ class Order(models.Model):
     comment = models.TextField(blank=True)
     status = models.IntegerField(default=0)
 
+
+class Test_Skills(models.Model):
+    test = models.ForeignKey(Test, on_delete=models.PROTECT)
+    skill = models.ForeignKey(Skill, on_delete=models.PROTECT)
 
 class Worker_Tests(models.Model):
     worker = models.ForeignKey(Worker, on_delete=models.PROTECT)
