@@ -5,7 +5,7 @@ from .models import *
 class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['name', 'surname', 'email', 'password']
+        fields = ['first_name', 'surname', 'email', 'password']
         widgets = {
             'password': forms.PasswordInput(),
         }
