@@ -53,6 +53,7 @@ class Skill(models.Model):
 class Test(models.Model):
     mentor = models.ForeignKey(User, on_delete=models.PROTECT)
     name = models.CharField(max_length=255, verbose_name="Название теста", default="Test name")
+    max_score = models.IntegerField(verbose_name="Максимальный балл", default=0)
 
     def get_absolute_url(self):
         return reverse('show_test', kwargs={'test_id': self.id})
