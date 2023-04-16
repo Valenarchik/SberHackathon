@@ -1,32 +1,57 @@
 {% extends 'SlivaJob/base.html' %}
 
+{% block title %}
+    {{ order.order_name }}
+{% endblock %}
+
 {% block content %}
-    <div class="max-w-4xl mt-8 w-full mx-auto bg-white py-4 px-8 rounded-md shadow-md">
-
-        <h1 class="font-bold text-2xl mb-3">{{ test.name }}</h1>
-        <form method="post" action="/to_employee/test/{{ test.id }}/">
-        <ol class="list-decimal list-inside">
-            {% for question, variants in questions %}
-                <div class="flex flex-row">
-                    <li class="mb-3 marker:font-bold marker:text-lg">
-                        <h2 class="inline-block font-bold text-lg mb-1">{{ question.question }}</h2>
-                        <div class="flex flex-col">
-                            {% for num, variant in variants %}
-                                <div class="flex items-center mb-2">
-                                    <input type="radio" id="{{ variant }}" name="{{ question.local_index }}"
-                                           value="{{ num }}">
-                                    <label class="ml-3 tracking-tight hover:cursor-pointer"
-                                           for="{{ variant }}">{{ variant }}</label>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </li>
+    <div class="max-w-6xl my-8 w-full mx-auto bg-white py-4 px-8 rounded-md shadow-md">
+        <div class="transform rounded-lg w-full overflow-hidden border-2 mb-6">
+            <div class="bg-white w-full p-4">
+                <p class="text-indigo-500 font-medium text-3xl mb-2">
+                    {{ order.order_name }}
+                </p>
+                <p class="text-gray-800 text-lg font-medium mb-2">
+                    Количество баллов за задание: {{ order.score }}
+                </p>
+                {% if order.status == 0 %}
+                    {#Заказ активен#}
+                    <p class="text-gray-800 text-lg font-medium mb-2 bg-green-100 rounded-xl inline-block p-2">
+                        Статус: <span class="text-green-500">Открытый</span>
+                    </p>
+                {% elif order.status == 1 %}
+                    {#Заказ взят#}
+                    <p class="text-or-800 text-lg font-medium mb-2 bg-orange-100 rounded-xl inline-block p-2">
+                        Статус: <span class="text-orange-500">Выполняется</span>
+                    </p>
+                {% elif order.status == 2 %}
+                    {#Заказ зактыт#}
+                    <p class="text-gray-800 text-lg font-medium mb-2 bg-zinc-100 rounded-xl inline-block p-2">
+                        Статус: <span class="text-zinc-500">Завершён</span>
+                    </p>
+                {% endif %}
+                <div class="border-t-2"></div>
+                <div class="text-gray-800 text-lg font-medium mb-2">
+                    <h3 class="font-bold text-lg mb-2">Описание:</h3>
+                    <p class="ml-2">
+                        {{ order.description }}
+                    </p>
                 </div>
-
-            {% endfor %}
-        </ol>
+                <div class="border-t-2"></div>
+                <div class="text-gray-800 text-lg font-medium mb-2">
+                    <h3 class="font-bold text-lg mb-2">Комментарий к заданию:</h3>
+                    <p class="ml-2">
+                        {{ order.comment }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <form action="/to_employee/order/{{ order.pk }}" method="POST">
             {% csrf_token %}
-            <button class="submit_button bg-indigo-500 text-white text-sm font-bold py-3 px-4 mb-2 rounded-md hover:bg-indigo-600 transition duration-300" id="submit">Отправить на проверку</button>
-        </form>
+        <button class="submit_button bg-indigo-500 text-white text-sm font-bold py-3 px-4 mb-2 rounded-md hover:bg-indigo-600 transition duration-300"
+                id="submit">
+            Взять на выполнение
+        </button>
+    </form>
     </div>
 {% endblock %}

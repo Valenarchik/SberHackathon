@@ -300,5 +300,23 @@ def test_page(request):
 
 
 def order(request, order_id):
+
     order = Order.objects.get(id=order_id)
-    return render(request, 'SlivaJob/order.html', {'order': order})
+
+    if request.method == "POST":
+        user_id = request.COOKIES.get('id')
+        if not Worker.objects.filter(worker_id=user_id).exists():
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            w = Worker.objects.create(worker_id=user_id, experience=5, resume='Резюме', career_status=True)
+            w.save()
+        else:
+            print("------------------------------------------------------")
+            w = Worker.objects.get(worker_id=user_id)
+
+        if order.status != 2 and not Workers_Orders.objects.filter(worker_id=w.pk, order_id=order.pk).exists():
+            order.status = 1
+            order.save()
+            Workers_Orders.objects.create(order_id=order_id, worker_id=w.pk)
+        return redirect('/to_employee/orders')
+    else:
+        return render(request, 'SlivaJob/order.html', {'order': order})
