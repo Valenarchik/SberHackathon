@@ -169,7 +169,23 @@ def vacancies(request):
 
 
 def to_employee(request):
-    return render(request, 'SlivaJob/to_employee.html')
+    user_id = request.COOKIES.get("id")
+    if not Worker.objects.filter(worker_id=user_id).exists():
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        w = Worker.objects.create(worker_id=user_id, experience=5, resume='Резюме', career_status=True)
+        w.save()
+    else:
+        print("------------------------------------------------------")
+        w = Worker.objects.get(worker_id=user_id)
+    testsListIds = Worker_Tests.objects.filter(worker_id=w.pk)
+    testsList = [Test.objects.get(pk=t_id.test_id) for t_id in testsListIds]
+    skillsList = [Test_Skills.objects.filter(test_id=t.pk)for t in testsList]
+    skills = []
+    for current_skills in skillsList:
+        skills.append(', '.join([Skill.objects.get(pk=skill.skill_id).name for skill in current_skills]))
+
+    testSkillsList = zip(skills, testsList)
+    return render(request, 'SlivaJob/to_employee.html', context={"testSkillsList": testSkillsList})
 
 
 def to_employer(request):
@@ -346,3 +362,6 @@ def order(request, order_id):
         return redirect('/to_employee/orders')
     else:
         return render(request, 'SlivaJob/order.html', {'order': order})
+
+
+

@@ -38,7 +38,7 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y bg-gray-800 divide-gray-700">
-                    {% for test, skills in testsList %}
+                    {% for skills, test in testSkillsList %}
                         <tr class="hover:bg-gray-700 hover:cursor-pointer"
                             onclick='location.href="../test/{{ test.id }}"'>
                             <td class="w-7/12 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ test.name }}</td>
