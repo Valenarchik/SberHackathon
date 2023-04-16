@@ -297,3 +297,8 @@ def success_post(request):
 def test_page(request):
     form = FilterOrderForm()
     return render(request, 'SlivaJob/test_page.html', {'form': form})
+
+
+def order(request, order_id):
+    order = Order.objects.get(id=order_id)
+    return render(request, 'SlivaJob/order.html', {'order': order})

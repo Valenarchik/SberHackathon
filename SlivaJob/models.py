@@ -77,6 +77,9 @@ class Order(models.Model):
     comment = models.TextField(blank=True)
     status = models.IntegerField(default=0)
 
+    def get_absolute_url(self):
+        return reverse('order', kwargs={'order_id': self.id})
+
 
 class Test_Skills(models.Model):
     test = models.ForeignKey(Test, on_delete=models.PROTECT)
