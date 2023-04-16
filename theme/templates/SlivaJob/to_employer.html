@@ -5,5 +5,12 @@
 {% endblock %}
 
 {% block content %}
-    Соискатели
+    <h1 style="padding-left: 30px;font-size: 20px"><strong>Соискатели</strong></h1>
+    {% for user, worker, skills in workersWithSkills %}
+        <div style="background-color: silver; padding: 15px; margin: 10px">
+            <h2><strong>{{ user.first_name }}     {{ user.surname }}</strong></h2>
+            <p style="width: 50%">{{ worker.resume }}</p>
+            <p style="text-align: right; margin-top: -10px">{{ skills }}</p>
+        </div>
+    {% endfor %}
 {% endblock %}

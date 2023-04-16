@@ -79,9 +79,17 @@ def test(request, test_id):
         test = Test.objects.get(pk=test_id)
         sum_score = 0
         for question in Test_Question.objects.filter(test_id=test_id):
-            if question.correct_index == answers[question.local_index]:
+            if answers.keys().__contains__(question.local_index) and question.correct_index == answers[question.local_index]:
                 sum_score += question.score
         Worker_Tests.objects.create(score=sum_score, test_id=test_id, worker_id=w.pk).save()
+        skills = Test_Skills.objects.filter(test_id=test_id)
+        for skill in skills:
+            exist = False
+            for work_skill in Worker_Skills.objects.filter(worker_id=w.pk):
+                if work_skill.skill_id == skill.pk:
+                    exist = True
+            if not exist:
+                Worker_Skills.objects.create(worker_id=w.pk, skill_id=skill.id).save()
         http = redirect('/to_employee/success_post')
         return http
     else:
@@ -122,6 +130,7 @@ def log_in(request):
             password = log_in_form.cleaned_data['password']
             user = User.objects.filter(email=email)
             if user:
+                user = user.first()
                 if user.password == password:
                     html_page = redirect('index')
                     html_page.set_cookie('id', f'{user.id}', max_age=None)
@@ -164,7 +173,24 @@ def to_employee(request):
 
 
 def to_employer(request):
-    return render(request, 'SlivaJob/to_employer.html')
+    workers = Worker.objects.all()
+    users = [User.objects.get(pk=w.worker_id) for w in workers]
+    worker_skills_id = [Worker_Skills.objects.filter(worker_id=w.pk) for w in workers]
+    worker_skills =[]
+    for worker_skills_id_list in worker_skills_id:
+        current_skills = [Skill.objects.get(pk=ws.skill_id).name for ws in worker_skills_id_list]
+        if len(current_skills) > 0:
+            print(len(current_skills))
+            worker_skills.append(", ".join(current_skills))
+        else:
+            worker_skills.append("На текущий момент нет навыков")
+    workersWithSkills = zip(users, workers, worker_skills)
+    print(workers)
+    print(users)
+    context={
+        "workersWithSkills": workersWithSkills,
+    }
+    return render(request, 'SlivaJob/to_employer.html', context)
 
 
 def to_mentor(request):
