@@ -191,10 +191,11 @@ def to_orderer(request):
         else:
             filter_form = FilterOrderForm()
 
+        print(id)
         if filt is not None and filt != '-1':
-            orders = Order.objects.filter(orderer=int(id), score=filt)
+            orders = Order.objects.filter(orderer_id=int(id)) & Order.objects.filter(status=filt)
         else:
-            orders = Order.objects.filter(orderer=int(id))
+            orders = Order.objects.filter(orderer_id=int(id))
         if len(orders) == 0:
             context['is_empty'] = True
         context['filter_form'] = filter_form
