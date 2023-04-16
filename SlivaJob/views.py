@@ -192,15 +192,15 @@ def to_employee(request):
 def to_employer(request):
     workers = Worker.objects.all()
     users = [User.objects.get(pk=w.worker_id) for w in workers]
-    worker_skills_id = [Worker_Skills.objects.filter(worker_id=w.pk) for w in workers]
+    worker_skills_id = [list(Worker_Skills.objects.filter(worker_id=w.pk)) for w in workers]
     worker_skills = []
     for worker_skills_id_list in worker_skills_id:
         current_skills = [Skill.objects.get(pk=ws.skill_id).name for ws in worker_skills_id_list]
         if len(current_skills) > 0:
             print(len(current_skills))
-            worker_skills.append(", ".join(current_skills))
+            worker_skills.append(current_skills)
         else:
-            worker_skills.append("На текущий момент нет навыков")
+            worker_skills.append(["На текущий момент нет навыков"])
     workersWithSkills = zip(users, workers, worker_skills)
     print(workers)
     print(users)
