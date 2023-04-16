@@ -64,23 +64,24 @@ def test(request, test_id):
         raw_answers = request.body.decode('utf-8').split("&")[0:-1]
         answers = {}
         user_id = request.COOKIES.get('id')
+        print(user_id)
         if not Worker.objects.filter(worker_id=user_id).exists():
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             w = Worker.objects.create(worker_id=user_id, experience=5, resume='Резюме', career_status=True)
             w.save()
         else:
+            print("------------------------------------------------------")
             w = Worker.objects.get(worker_id=user_id)
-
+        print(w.worker_id)
         for answer in raw_answers:
             key, value = answer.split("=")
             answers[int(key)] = int(value)
         test = Test.objects.get(pk=test_id)
         sum_score = 0
-        for num, question in enumerate(Test_Question.objects.filter(test_id=test_id)):
-            if question.correct_index == answers[num + 1]:
+        for question in Test_Question.objects.filter(test_id=test_id):
+            if question.correct_index == answers[question.local_index]:
                 sum_score += question.score
-
-        Worker_Tests.objects.create(score=sum_score, test_id=test_id, worker_id=w.worker_id).save()
-        test_questions = Test_Question.objects.filter(test_id=test)
+        Worker_Tests.objects.create(score=sum_score, test_id=test_id, worker_id=w.pk).save()
         http = redirect('/to_employee/success_post')
         return http
     else:
