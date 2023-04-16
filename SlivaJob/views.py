@@ -79,7 +79,8 @@ def test(request, test_id):
         test = Test.objects.get(pk=test_id)
         sum_score = 0
         for question in Test_Question.objects.filter(test_id=test_id):
-            if answers.keys().__contains__(question.local_index) and question.correct_index == answers[question.local_index]:
+            if answers.keys().__contains__(question.local_index) and question.correct_index == answers[
+                question.local_index]:
                 sum_score += question.score
         Worker_Tests.objects.create(score=sum_score, test_id=test_id, worker_id=w.pk).save()
         skills = Test_Skills.objects.filter(test_id=test_id)
@@ -108,7 +109,7 @@ def sign_up(request):
         sign_up_form = SignUpForm(request.POST)
         if sign_up_form.is_valid():
             email = sign_up_form.cleaned_data['email']
-            if User.objects.filter(email= email):
+            if User.objects.filter(email=email):
                 sign_up_form.add_error('email', 'Пользователь с таким email уже существует')
             else:
                 user = sign_up_form.save()
@@ -176,7 +177,7 @@ def to_employer(request):
     workers = Worker.objects.all()
     users = [User.objects.get(pk=w.worker_id) for w in workers]
     worker_skills_id = [Worker_Skills.objects.filter(worker_id=w.pk) for w in workers]
-    worker_skills =[]
+    worker_skills = []
     for worker_skills_id_list in worker_skills_id:
         current_skills = [Skill.objects.get(pk=ws.skill_id).name for ws in worker_skills_id_list]
         if len(current_skills) > 0:
@@ -187,7 +188,7 @@ def to_employer(request):
     workersWithSkills = zip(users, workers, worker_skills)
     print(workers)
     print(users)
-    context={
+    context = {
         "workersWithSkills": workersWithSkills,
     }
     return render(request, 'SlivaJob/to_employer.html', context)
@@ -326,7 +327,6 @@ def test_page(request):
 
 
 def order(request, order_id):
-
     order = Order.objects.get(id=order_id)
 
     if request.method == "POST":
@@ -346,3 +346,4 @@ def order(request, order_id):
         return redirect('/to_employee/orders')
     else:
         return render(request, 'SlivaJob/order.html', {'order': order})
+
