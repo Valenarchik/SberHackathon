@@ -146,17 +146,7 @@ def to_mentor(request):
     id = request.COOKIES.get('id')
     if id:
         testsList = Test.objects.filter(mentor=id)
-        skills_id = [Test_Skills.objects.filter(test_id=t.id) for t in testsList]
-        skills = []
-        if len(skills_id) != 0:
-            for arr in skills_id:
-                skills_arr = [Skill.objects.get(pk=skill.id).name for skill in arr]
-                if len(skills_arr) != 0:
-                    skills.append("\n".join(skills_arr))
-        else:
-            context['is_empty'] = True
-        tests = zip(testsList, skills)
-        context['testsList'] = tests
+        context['testsList'] = testsList
         return render(request, 'SlivaJob/to_mentor.html', context)
     else:
         return redirect('index')
@@ -225,7 +215,7 @@ def create_test(request):
         create_test_form = CreateTestForm(request.POST)
         if create_test_form.is_valid():
             name = create_test_form.cleaned_data['name']
-            test = Test.objects.create(name=name, mentor_id=id)
+            test = Test.objects.create(mentor=User.objects.get(id=id), name=name)
             test.save()
             return redirect('to_mentor')
     else:
@@ -237,11 +227,12 @@ def create_test(request):
 
 
 def show_test(request, test_id):
-    testObj = Test.objects.filter(id=test_id)
-    allQuestions = Test_Question.objects.filter(test_id=test_id)
+    questions = Test_Question.objects.filter(test_id=test_id)
+    variants = [q.variants.split('|') for q in questions]
+    questionsPairs = zip(questions, variants)
     context = {
-        'name': testObj.first().name,
-        'allQuestions': allQuestions,
+        'questions': questionsPairs,
+        'test': Test.objects.get(pk=test_id)
     }
     return render(request, 'SlivaJob/show_test.html', context)
 
@@ -259,16 +250,15 @@ def create_question(request, test_id):
             arr = [answer1, answer2, answer3, answer4]
             answers = '|'.join(arr)
             rightAnswerIndex = create_question_form.cleaned_data['right_answer']
-            correct = arr[rightAnswerIndex]
+            correct = arr[rightAnswerIndex - 1]
             question = Test_Question.objects.create(test_id=test_id, question=question, variants=answers,
-                                                    rightAnswerIndex=rightAnswerIndex, correct=correct)
+                                                    correct_index=rightAnswerIndex, correct=correct)
             question.save()
-        return redirect('create_test')
-
+            return redirect('show_test', test_id=test_id)
     else:
         create_question_form = CreateQuestionForm()
-        context['create_question_form'] = create_question_form
-        return render(request, 'SlivaJob/create_question.html', context)
+    context['create_question_form'] = create_question_form
+    return render(request, 'SlivaJob/create_question.html', context)
 
 
 def my_tests(request):

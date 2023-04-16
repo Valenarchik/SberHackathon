@@ -13,8 +13,9 @@ urlpatterns = [
     path('to_employer/', to_employer, name='to_employer'),
     path('to_mentor/', to_mentor, name='to_mentor'),
     path('to_mentor/create_test', create_test, name='create_test'),
-    path('to_mentor/create_test/<int:test_id>/', create_test, name='create_test'),
+    path('to_mentor/show_test/<int:test_id>/', show_test, name='show_test'),
     path('to_mentor/my_tests/', my_tests, name='my_tests'),
+    path('create_question/<int:test_id>', create_question, name='create_question'),
     path('to_orderer/', to_orderer, name='to_orderer'),
     path('to_orderer/create_order/', create_order, name='create_order'),
     path('workers/', workers, name='workers'),
@@ -22,7 +23,6 @@ urlpatterns = [
     path('vacancies/', vacancies, name='vacancies'),
     path('sign_up/', sign_up, name='sign_up'),
     path('log_in/', log_in, name='log_in'),
-    path('create_question/<int:test_id>', create_question, name='create_question'),
     # Станица для тестов сайта
     path('test_page', test_page)
     #

@@ -6,9 +6,9 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post" class="max-w-sm w-full mx-auto bg-white p-8 rounded-md shadow-md">
+    <form method="post" class="max-w-2xl mt-8 w-full mx-auto bg-white py-4 px-8 rounded-md shadow-md">
         {% csrf_token %}
-        {{ create_order_form.as_p }}
+        {{ create_question_form | crispy}}
         <button type="submit" value="Create" name="submit"
                 class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300">
             Создать

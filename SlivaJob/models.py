@@ -54,6 +54,9 @@ class Test(models.Model):
     mentor = models.ForeignKey(User, on_delete=models.PROTECT)
     name = models.CharField(max_length=255, verbose_name="Название теста", default="Test name")
 
+    def get_absolute_url(self):
+        return reverse('show_test', kwargs={'test_id': self.id})
+
 
 class Test_Question(models.Model):
     test = models.ForeignKey(Test, on_delete=models.PROTECT)
