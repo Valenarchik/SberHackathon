@@ -3,8 +3,11 @@ from django.shortcuts import render, redirect
 from .forms import *
 from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator
 
+context = {}
+
 
 def index(request):
+    global context
     context = {}
     if request.COOKIES.get('id'):
         context['is_log_in'] = True
@@ -15,6 +18,7 @@ def index(request):
 
 
 def orders(request):
+    global context
     all_orders = []
     user_id = int(request.COOKIES.get('id'))
     w = Worker.objects.create(resume='resume', experience=10, career_status=1, worker_id=user_id)
@@ -34,6 +38,7 @@ def orders(request):
 
 
 def workers(request):
+    global context
     workersList = Worker.objects.all()
     usersList = [User.objects.get(pk=w.worker_id) for w in workersList]
     context = {
@@ -43,6 +48,7 @@ def workers(request):
 
 
 def tests(request):
+    global context
     testsList = Test.objects.all()
     skills_id = [Test_Skills.objects.filter(test_id=t.id) for t in testsList]
     skills = []
@@ -60,6 +66,7 @@ def tests(request):
 
 
 def test(request, test_id):
+    global context
     if request.method == "POST":
         raw_answers = request.body.decode('utf-8').split("&")[0:-1]
         answers = {}
@@ -96,6 +103,7 @@ def test(request, test_id):
 
 
 def sign_up(request):
+    global context
     html_page = None
     if request.method == 'POST':
         sign_up_form = SignUpForm(request.POST)
@@ -114,6 +122,7 @@ def sign_up(request):
 
 
 def log_in(request):
+    global context
     html_page = None
     if request.method == 'POST':
         log_in_form = LogInForm(request.POST)
@@ -139,6 +148,7 @@ def log_in(request):
 
 
 def profile(request):
+    global context
     context = {}
     id = request.COOKIES.get('id')
     if id:
@@ -168,6 +178,7 @@ def to_employer(request):
 
 
 def to_mentor(request):
+    global context
     context = {}
     id = request.COOKIES.get('id')
     if id:
@@ -179,6 +190,7 @@ def to_mentor(request):
 
 
 def to_orderer(request):
+    global context
     html_page = None
     id = request.COOKIES.get('id')
     context = {}
@@ -207,6 +219,7 @@ def to_orderer(request):
 
 
 def create_order(request):
+    global context
     id = int(request.COOKIES.get('id'))
     if request.POST:
         create_order_form = CreateOrderForm(request.POST)
@@ -236,6 +249,7 @@ def create_order(request):
 
 
 def create_test(request):
+    global context
     id = int(request.COOKIES.get('id'))
     if request.POST:
         create_test_form = CreateTestForm(request.POST)
@@ -253,6 +267,7 @@ def create_test(request):
 
 
 def show_test(request, test_id):
+    global context
     questions = Test_Question.objects.filter(test_id=test_id)
     variants = [q.variants.split('|') for q in questions]
     questionsPairs = zip(questions, variants)
@@ -264,6 +279,7 @@ def show_test(request, test_id):
 
 
 def create_question(request, test_id):
+    global context
     context = {}
     if request.POST:
         create_question_form = CreateQuestionForm(request.POST)

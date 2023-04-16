@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="w-8/12 mx-auto mt-8 overflow-hidden rounded-bl-2xl self-end">
+    <div class="w-8/12 mx-auto mt-8 overflow-hidden self-end">
         <h1 class="font-bold text-3xl mb-3 ml-4">
             Тесты
         </h1>
@@ -29,14 +29,23 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y bg-gray-800 divide-gray-700">
-                    {% for test, skills in testsList %}
-                        <tr class="hover:bg-gray-700 hover:cursor-pointer"
-                            onclick='location.href="../test/{{ test.id }}"'>
-                            <td class="w-7/12 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ test.name }}</td>
-                            <td class="w-3/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ test.max_score }}</td>
-                            <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ skills }}</td>
-                        </tr>
-                    {% endfor %}
+{#                    {% if testsList|length == 0 %}#}
+{#                        <tr>#}
+{#                            <td colspan="3"#}
+{#                                class="w-7/12 py-4 px-6 text-base font-medium whitespace-nowrap text-white text-center">#}
+{#                                Пусто... {{ testsList|length}}#}
+{#                            </td>#}
+{#                        </tr>#}
+{#                    {% else %}#}
+                        {% for test, skills in testsList %}
+                            <tr class="hover:bg-gray-700 hover:cursor-pointer"
+                                onclick='location.href="../test/{{ test.id }}"'>
+                                <td class="w-7/12 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ test.name }}</td>
+                                <td class="w-3/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ test.max_score }}</td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ skills }}</td>
+                            </tr>
+                        {% endfor %}
+{#                    {% endif %}#}
                     </tbody>
                 </table>
             </div>

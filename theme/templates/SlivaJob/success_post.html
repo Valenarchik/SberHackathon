@@ -5,5 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    <p>Ответ отправлен</p>
+    <div class="w-8/12 mx-auto mt-8 overflow-hidden rounded-bl-2xl self-end">
+        <h2 class="font-bold text-3xl mb-6">Ответ отправлен</h2>
+        <button class="bg-indigo-500 text-white text-sm font-bold py-3 px-4 mb-2 rounded-md hover:bg-indigo-600 transition duration-300">
+            <a href="{% url 'to_employee' %}">Вернуться</a>
+        </button>
+    </div>
 {% endblock %}
