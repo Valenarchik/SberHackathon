@@ -114,6 +114,7 @@ def sign_up(request):
                 user = sign_up_form.save()
                 html_page = redirect('index')
                 html_page.set_cookie('id', f'{user.id}', max_age=None)
+                return html_page
     else:
         sign_up_form = SignUpForm()
     context = {'sing_up_form': sign_up_form}
@@ -362,6 +363,12 @@ def order(request, order_id):
     else:
         return render(request, 'SlivaJob/order.html', {'order': order})
 
+
+def log_out(request):
+    htmlpage = redirect('index')
+    htmlpage.delete_cookie("id")
+    print('asdasasfxzcasdc')
+    return htmlpage
 
 
 
