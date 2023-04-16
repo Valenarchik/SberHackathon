@@ -7,9 +7,9 @@ from django.core.validators import MaxValueValidator, MinValueValidator, MinLeng
 def index(request):
     context = {}
     if request.COOKIES.get('id'):
-        context['is_log_in'] = True
+        context['is_not_log_in'] = False
     else:
-        context['is_log_in'] = False
+        context['is_not_log_in'] = True
 
     return render(request, 'SlivaJob/index.html', context)
 
