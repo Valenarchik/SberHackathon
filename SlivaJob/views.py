@@ -7,9 +7,9 @@ from django.core.validators import MaxValueValidator, MinValueValidator, MinLeng
 def index(request):
     context = {}
     if request.COOKIES.get('id'):
-        context['is_log_in'] = True
+        context['is_not_log_in'] = False
     else:
-        context['is_log_in'] = False
+        context['is_not_log_in'] = True
 
     return render(request, 'SlivaJob/index.html', context)
 
@@ -104,20 +104,20 @@ def test(request, test_id):
 
 
 def sign_up(request):
-    html_page = None
     if request.method == 'POST':
         sign_up_form = SignUpForm(request.POST)
         if sign_up_form.is_valid():
-            user = sign_up_form.save()
-            html_page = redirect('index')
-            html_page.set_cookie('id', f'{user.id}', max_age=None)
-        else:
-            context = {'sing_up_form': sign_up_form}
-            html_page = render(request, 'SlivaJob/signup.html', context)
+            email = sign_up_form.cleaned_data['email']
+            if User.objects.filter(email=email):
+                sign_up_form.add_error('email', 'Пользователь с таким email уже существует')
+            else:
+                user = sign_up_form.save()
+                html_page = redirect('index')
+                html_page.set_cookie('id', f'{user.id}', max_age=None)
     else:
         sign_up_form = SignUpForm()
-        context = {'sing_up_form': sign_up_form}
-        html_page = render(request, 'SlivaJob/signup.html', context)
+    context = {'sing_up_form': sign_up_form}
+    html_page = render(request, 'SlivaJob/signup.html', context)
     return html_page
 
 
@@ -192,7 +192,7 @@ def to_employer(request):
     workers = Worker.objects.all()
     users = [User.objects.get(pk=w.worker_id) for w in workers]
     worker_skills_id = [Worker_Skills.objects.filter(worker_id=w.pk) for w in workers]
-    worker_skills =[]
+    worker_skills = []
     for worker_skills_id_list in worker_skills_id:
         current_skills = [Skill.objects.get(pk=ws.skill_id).name for ws in worker_skills_id_list]
         if len(current_skills) > 0:
@@ -203,7 +203,7 @@ def to_employer(request):
     workersWithSkills = zip(users, workers, worker_skills)
     print(workers)
     print(users)
-    context={
+    context = {
         "workersWithSkills": workersWithSkills,
     }
     return render(request, 'SlivaJob/to_employer.html', context)
@@ -342,7 +342,6 @@ def test_page(request):
 
 
 def order(request, order_id):
-
     order = Order.objects.get(id=order_id)
 
     if request.method == "POST":
@@ -362,6 +361,7 @@ def order(request, order_id):
         return redirect('/to_employee/orders')
     else:
         return render(request, 'SlivaJob/order.html', {'order': order})
+
 
 
 
