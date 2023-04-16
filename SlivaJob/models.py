@@ -63,6 +63,7 @@ class Test_Question(models.Model):
     question = models.TextField(blank=False, default="Вопрос не задан")
     variants = models.TextField(blank=False, default="Вариант ответа")
     correct_index = models.IntegerField(default=0)
+    local_index = models.IntegerField(default=0)
     correct = models.TextField(default="Правильный вариант ответа")
     score = models.IntegerField(default=1)
 

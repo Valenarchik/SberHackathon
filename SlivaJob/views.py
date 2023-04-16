@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect
 from .forms import *
 from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator
@@ -59,14 +60,39 @@ def tests(request):
 
 
 def test(request, test_id):
-    questions = Test_Question.objects.filter(test_id=test_id)
-    variants = [q.variants.split('|') for q in questions]
-    questionsPairs = zip(questions, variants)
-    context = {
-        'questions': questionsPairs,
-        'test': Test.objects.get(pk=test_id)
-    }
-    return render(request, f'SlivaJob/test.html', context)
+    if request.method == "POST":
+        raw_answers = request.body.decode('utf-8').split("&")[0:-1]
+        answers = {}
+        user_id = request.COOKIES.get('id')
+        print(user_id)
+        if not Worker.objects.filter(worker_id=user_id).exists():
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            w = Worker.objects.create(worker_id=user_id, experience=5, resume='Резюме', career_status=True)
+            w.save()
+        else:
+            print("------------------------------------------------------")
+            w = Worker.objects.get(worker_id=user_id)
+        print(w.worker_id)
+        for answer in raw_answers:
+            key, value = answer.split("=")
+            answers[int(key)] = int(value)
+        test = Test.objects.get(pk=test_id)
+        sum_score = 0
+        for question in Test_Question.objects.filter(test_id=test_id):
+            if question.correct_index == answers[question.local_index]:
+                sum_score += question.score
+        Worker_Tests.objects.create(score=sum_score, test_id=test_id, worker_id=w.pk).save()
+        http = redirect('/to_employee/success_post')
+        return http
+    else:
+        questions = Test_Question.objects.filter(test_id=test_id)
+        variants = [enumerate(q.variants.split('|')) for q in questions]
+        questionsPairs = zip(questions, variants)
+        context = {
+            'questions': questionsPairs,
+            'test': Test.objects.get(pk=test_id)
+        }
+        return render(request, f'SlivaJob/test.html', context)
 
 
 def sign_up(request):
@@ -263,6 +289,10 @@ def create_question(request, test_id):
 
 def my_tests(request):
     return render(request, 'SlivaJob/my_tests.html')
+
+
+def success_post(request):
+    return render(request, 'SlivaJob/success_post.html')
 
 
 def test_page(request):

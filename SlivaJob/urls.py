@@ -7,6 +7,7 @@ from .views import *
 urlpatterns = [
     path('', index, name='index'),
     path('to_employee/', to_employee, name='to_employee'),
+    path('to_employee/success_post', success_post, name='success_post'),
     path('to_employee/orders/', orders, name='orders'),
     path('to_employee/tests/', tests, name='tests'),
     path('to_employee/test/<int:test_id>/', test, name='test'),
@@ -26,6 +27,7 @@ urlpatterns = [
     # Станица для тестов сайта
     path('test_page', test_page)
     #
+
 ]
 
 if settings.DEBUG:
