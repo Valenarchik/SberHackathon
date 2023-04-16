@@ -104,20 +104,20 @@ def test(request, test_id):
 
 
 def sign_up(request):
-    html_page = None
     if request.method == 'POST':
         sign_up_form = SignUpForm(request.POST)
         if sign_up_form.is_valid():
-            user = sign_up_form.save()
-            html_page = redirect('index')
-            html_page.set_cookie('id', f'{user.id}', max_age=None)
-        else:
-            context = {'sing_up_form': sign_up_form}
-            html_page = render(request, 'SlivaJob/signup.html', context)
+            email = sign_up_form.cleaned_data['email']
+            if User.objects.filter(email= email):
+                sign_up_form.add_error('email', 'Пользователь с таким email уже существует')
+            else:
+                user = sign_up_form.save()
+                html_page = redirect('index')
+                html_page.set_cookie('id', f'{user.id}', max_age=None)
     else:
         sign_up_form = SignUpForm()
-        context = {'sing_up_form': sign_up_form}
-        html_page = render(request, 'SlivaJob/signup.html', context)
+    context = {'sing_up_form': sign_up_form}
+    html_page = render(request, 'SlivaJob/signup.html', context)
     return html_page
 
 
