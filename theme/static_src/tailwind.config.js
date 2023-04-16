@@ -12,7 +12,7 @@ module.exports = {
          */
 
         /*  Templates within theme app (<tailwind_app_name>/templates), e.g. base.html. */
-        '../templates/**/*.html',
+        '../templates/SlivaJob/*.html',
 
         /*
          * Main templates directory of the project (BASE_DIR/templates).
@@ -42,7 +42,7 @@ module.exports = {
         // '../../**/*.py'
     ],
     presets: [],
-    darkMode: 'dark', // or 'class'
+    darkMode: 'media',
     theme: {
         screens: {
             sm: '640px',
@@ -57,8 +57,8 @@ module.exports = {
             current: colors.current,
             transparent: colors.transparent,
             black: colors.black,
-            white: colors.white,
             slate: colors.slate,
+            white: colors.white,
             gray: colors.gray,
             zinc: colors.zinc,
             neutral: colors.neutral,

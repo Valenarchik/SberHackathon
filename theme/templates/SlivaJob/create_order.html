@@ -1,9 +1,20 @@
 {% extends 'SlivaJob/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}
     Создание заказа
 {% endblock %}
 
 {% block content %}
-    Заказ
+    <div class="max-w-2xl w-full mx-auto bg-white my-8 py-4 px-8 rounded-md shadow-md">
+        <h1 class="font-bold text-2xl mb-3 text-center"> Форма создания заказа</h1>
+        <form method="post" class="[&>div>select]:focus:outline-none [&>div>select]:border [&>div>select]:text-gray-700 [&>div>select]:rounded-lg [&>div>select]:py-2 [&>div>select]:bg-white [&>div>select]:leading-normal [&>div>select]:block [&>div>select]:px-4 [&>div>select]:border-gray-300 [&>div>select]:appearance-none [&>div>select]:w-full [&>lable]:block [&>lable]:text-gray-700 [&>lable]:text-sm [&>lable]:font-bold [&>lable]:mb-2">
+            {% csrf_token %}
+            {{ create_order_form | crispy }}
+            <button type="submit" value="Create" name="submit"
+                    class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300">
+                Создать
+            </button>
+        </form>
+    </div>
 {% endblock %}

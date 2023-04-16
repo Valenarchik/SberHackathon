@@ -31,5 +31,33 @@ class ProfileForm(forms.ModelForm):
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-input'}),
             'surname': forms.TextInput(attrs={'class': 'form-input'}),
-            #'email': forms.EmailField(attrs={'class': 'email-input'}),
+            # 'email': forms.EmailField(attrs={'class': 'email-input'}),
         }
+
+
+ORDER_TYPE = [
+    ('-1', 'Все'),
+    ('0', 'Активные'),
+    ('1', 'В процессе выполнения'),
+    ('2', 'Выполненные'),
+]
+
+
+class FilterOrderForm(forms.Form):
+    status = forms.CharField(label='Выберите тип заказа', widget=forms.Select(choices=ORDER_TYPE))
+
+
+class CreateOrderForm(forms.Form):
+    order_name = forms.CharField(label='Название', widget=forms.TextInput())
+    description = forms.CharField(label='Описание', widget=forms.Textarea())
+    score = forms.IntegerField(label='Количество баллов', validators=[MinValueValidator(0), MaxValueValidator(10)])
+    comment = forms.CharField(label='Комментарий', widget=forms.TextInput())
+
+
+class CreateQuestionForm(forms.Form):
+    question = forms.CharField(max_length=50, label="Вопрос")
+    ansver1 = forms.CharField(max_length=50)
+    ansver2 = forms.CharField(max_length=50)
+    ansver3 = forms.CharField(max_length=50)
+    ansver4 = forms.CharField(max_length=50)
+    right_answer = forms.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4)])

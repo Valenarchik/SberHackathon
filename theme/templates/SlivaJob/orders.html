@@ -3,10 +3,71 @@
 {% block title %}
     Заказы
 {% endblock %}
+<h1><strong>Текущие заказы</strong></h1>
+{% for order in ordersList %}
+    <p>{{ order.order_name }}</p>
+{% endfor %}
+
+
+{% extends 'SlivaJob/base.html' %}
+
+{% block title %}
+    Тесты
+{% endblock %}
 
 {% block content %}
-    <h1><strong>Текущие заказы</strong></h1>
-    {% for order in ordersList %}
-        <p>{{ order.order_name }}</p>
-    {% endfor %}
+    <div class="w-8/12 mx-auto py-10 bg-white overflow-hidden rounded-bl-2xl self-end">
+        <h1 class="font-bold text-3xl mb-3 ml-4">
+            Тесты
+        </h1>
+        <div class="overflow-x-auto shadow-md sm:rounded-lg inline-block min-w-full align-middle">
+            <div class="overflow-hidden ">
+                <table class="min-w-full divide-y table-fixed divide-gray-700">
+                    <thead class="bg-gray-700">
+                    <tr>
+                        <th scope="col"
+                            class="py-3 px-6 text-lg font-bold tracking-wider text-left text-gray-400">
+                            Название заказа
+                        </th>
+                        <th scope="col"
+                            class="py-3 px-6 text-lg font-bold tracking-wider text-left text-gray-400">
+                            Компетенции
+                        </th>
+                        <th scope="col"
+                            class="py-3 px-6 text-lg font-bold tracking-wider text-left text-gray-400">
+                            Максимальный балл
+                        </th>
+                        <th scope="col"
+                            class="py-3 px-6 text-lg font-bold tracking-wider text-left text-gray-400">
+                            Статус заказа
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y bg-gray-800 divide-gray-700">
+                    {% for order in ordersList %}
+                        <tr class="hover:bg-gray-700 hover:cursor-pointer"
+                            onclick='location.href="../test/{{ test.id }}"'>
+                            {% if order.score == '0' %}
+                                <td class="w-7/12 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.order_name }}</td>
+                                <td class="w-3/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.score }}</td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white"> Скилл </td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white"> Активный </td>
+                            {% elif order.score == '1' %}
+                                <td class="w-7/12 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.order_name }}</td>
+                                <td class="w-3/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.score }}</td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white"> Скилл </td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white"> Выполняется </td>
+                            {% elif order.score == '2' %}
+                                <td class="w-7/12 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.order_name }}</td>
+                                <td class="w-3/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.score }}</td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white"> Скилл </td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white"> Завершён </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

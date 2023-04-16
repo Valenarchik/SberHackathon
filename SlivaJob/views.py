@@ -1,6 +1,7 @@
 import json
 from django.shortcuts import render, redirect
 from .forms import *
+from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator
 
 
 def index(request):
@@ -14,6 +15,18 @@ def index(request):
 
 
 def orders(request):
+    all_orders = []
+    user_id = int(request.COOKIES.get('id'))
+    w = Worker.objects.create(resume='resume', experience=10, career_status=1, worker_id=user_id)
+    w.save()
+    worker = Worker.objects.get(worker_id=w.worker_id)
+    worker_skills_id = Worker_Skills.objects.filter(worker_id=worker.id)
+    for order in Order.objects.all():
+        for skills in Skills_Orders.objects.filter(order_id=order.id):
+            current_skills_id = [skill.id for skill in skills]
+            for worker_skill_id in worker_skills_id:
+                if current_skills_id.__contains__(worker_skill_id):
+                    all_orders.append(order)
     context = {
         "ordersList": Order.objects.all()
     }
@@ -112,8 +125,6 @@ def log_in(request):
                     html_page = redirect('index')
                     html_page.set_cookie('id', f'{user.id}', max_age=None)
                 else:
-                    context = {'log_in_form': log_in_form}
-                    html_page = render(request, 'SlivaJob/login.html', context)
                     log_in_form.add_error('password', 'Неверный пароль')
             else:
                 log_in_form.add_error('email', 'Указан неверный E-mail')
@@ -156,24 +167,103 @@ def to_employer(request):
 
 
 def to_mentor(request):
-    return render(request, 'SlivaJob/to_mentor.html')
+    context = {}
+    id = request.COOKIES.get('id')
+    if id:
+        testsList = Test.objects.filter(mentor=id)
+        skills_id = [Test_Skills.objects.filter(test_id=t.id) for t in testsList]
+        skills = []
+        if len(skills_id) != 0:
+            for arr in skills_id:
+                skills_arr = [Skill.objects.get(pk=skill.id).name for skill in arr]
+                if len(skills_arr) != 0:
+                    skills.append("\n".join(skills_arr))
+        else:
+            context['is_empty'] = True
+        tests = zip(testsList, skills)
+        context['testsList'] = tests
+        return render(request, 'SlivaJob/to_mentor.html', context)
+    else:
+        return redirect('index')
 
 
 def to_orderer(request):
     html_page = None
     id = request.COOKIES.get('id')
+    context = {}
     if id:
-        orders = Order.objects.filter(id=int(id))
+        filt = None
+        if request.POST:
+            filter_form = FilterOrderForm(request.POST)
+            if filter_form.is_valid():
+                filt = filter_form.cleaned_data['status']
+        else:
+            filter_form = FilterOrderForm()
+
+        if filt is not None and filt != '-1':
+            orders = Order.objects.filter(orderer=int(id), score=filt)
+        else:
+            orders = Order.objects.filter(orderer=int(id))
+        if len(orders) == 0:
+            context['is_empty'] = True
+        context['filter_form'] = filter_form
+        context['orders'] = orders
+        html_page = render(request, 'SlivaJob/to_orderer.html', context)
+    else:
+        html_page = redirect('index')
 
     return html_page
 
 
 def create_order(request):
-    return render(request, 'SlivaJob/create_order.html')
+    id = int(request.COOKIES.get('id'))
+    if request.POST:
+        create_order_form = CreateOrderForm(request.POST)
+        if create_order_form.is_valid():
+            order_name = create_order_form.cleaned_data['order_name']
+            description = create_order_form.cleaned_data['description']
+            score = create_order_form.cleaned_data['score']
+            comment = create_order_form.cleaned_data['comment']
+            order = Order.objects.create(
+                orderer=User.objects.get(id=id),
+                order_name=order_name,
+                description=description,
+                score=score,
+                comment=comment,
+                status=0
+            )
+            order.save()
+            return redirect('to_orderer')
+        else:
+            context = {'create_order_form': create_order_form}
+            return render(request, 'SlivaJob/create_order.html', context)
+
+    else:
+        create_order_form = CreateOrderForm()
+        context = {'create_order_form': create_order_form}
+        return render(request, 'SlivaJob/create_order.html', context)
 
 
 def create_test(request):
     return render(request, 'SlivaJob/create_test.html')
+
+
+def create_question(request, test_id):
+    id = int(request.COOKIES.get('id'))
+    context = {}
+    if request.POST:
+        create_question_form = CreateQuestionForm(request.POST)
+        if create_question_form.is_valid():
+            question = create_question_form.cleaned_data['question']
+            answer1 = create_question_form.cleaned_data['answer1']
+            answer2 = create_question_form.cleaned_data['answer2']
+            answer3 = create_question_form.cleaned_data['answer3']
+            answer4 = create_question_form.cleaned_data['answer4']
+            answers = [answer1, answer2, answer3, answer4]
+            question = Test_Question.objects.create(test_id=test_id, question=question)
+    else:
+        create_question_form = CreateQuestionForm()
+    context['create_question_form'] = create_question_form
 
 
 def my_tests(request):
@@ -183,3 +273,7 @@ def my_tests(request):
 def success_post(request):
     return render(request, 'SlivaJob/success_post.html')
 
+
+def test_page(request):
+    form = FilterOrderForm()
+    return render(request, 'SlivaJob/test_page.html', {'form': form})

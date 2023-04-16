@@ -22,6 +22,9 @@ urlpatterns = [
     path('vacancies/', vacancies, name='vacancies'),
     path('sign_up/', sign_up, name='sign_up'),
     path('log_in/', log_in, name='log_in'),
+    # Станица для тестов сайта
+    path('test_page', test_page)
+    #
 
 ]
 
