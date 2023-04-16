@@ -7,7 +7,7 @@
 {% block content %}
     <form method="post" class="max-w-sm w-full mx-auto bg-white p-8 rounded-md shadow-md">
         {% csrf_token %}
-        {{ create_question_form.as_p }}
+        {{ form }}
         <button type="submit" value="Create" name="submit"
                 class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300">
             Создать

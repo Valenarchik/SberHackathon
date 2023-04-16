@@ -219,32 +219,31 @@ def create_order(request):
         return render(request, 'SlivaJob/create_order.html', context)
 
 
-def create_test(request, test_id):
-    testObj = Test.objects.filter(id=test_id)
+def create_test(request):
     id = int(request.COOKIES.get('id'))
-    if testObj:
-        allQuestions = Test_Question.objects.filter(test_id=test_id)
-        context = {
-            'allQuestions': allQuestions,
-            'name': testObj.first().name
-        }
-        return render(request, 'SlivaJob/create_test.html', context)
+    if request.POST:
+        create_test_form = CreateTestForm(request.POST)
+        if create_test_form.is_valid():
+            name = create_test_form.cleaned_data['name']
+            test = Test.objects.create(name=name, mentor_id=id)
+            test.save()
+            return redirect('to_mentor')
     else:
-        if request.POST:
-            create_test_form = CreateTestForm(request.POST)
-            if create_test_form.is_valid():
-                name = create_test_form.cleaned_data['name']
-                test = Test.objects.create(name=name, mentor_id=id)
-                context = {
-                    'name': name
-                }
-                return render(request, 'SlivaJob/create_test.html', context)
-        else:
-            create_test_form = CreateTestForm()
-        context = {
-            'form': create_test_form
-        }
-        return render(request, 'SlivaJob/create_test.html', context=context)
+        create_test_form = CreateTestForm()
+    context = {
+        'form': create_test_form
+    }
+    return render(request, 'SlivaJob/create_test.html', context=context)
+
+
+def show_test(request, test_id):
+    testObj = Test.objects.filter(id=test_id)
+    allQuestions = Test_Question.objects.filter(test_id=test_id)
+    context = {
+        'name': testObj.first().name,
+        'allQuestions': allQuestions,
+    }
+    return render(request, 'SlivaJob/show_test.html', context)
 
 
 def create_question(request, test_id):
