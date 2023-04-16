@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="w-8/12 mx-auto py-10 bg-white overflow-hidden rounded-bl-2xl self-end">
+    <div class="w-8/12 mx-auto py-10 overflow-hidden rounded-bl-2xl self-end">
         <h1 class="font-bold text-3xl mb-3 ml-4">
             Тесты
         </h1>
@@ -20,10 +20,6 @@
                         </th>
                         <th scope="col"
                             class="py-3 px-6 text-lg font-bold tracking-wider text-left text-gray-400">
-                            Компетенции
-                        </th>
-                        <th scope="col"
-                            class="py-3 px-6 text-lg font-bold tracking-wider text-left text-gray-400">
                             Максимальный балл
                         </th>
                         <th scope="col"
@@ -35,22 +31,19 @@
                     <tbody class="divide-y bg-gray-800 divide-gray-700">
                     {% for order in ordersList %}
                         <tr class="hover:bg-gray-700 hover:cursor-pointer"
-                            onclick='location.href="../test/{{ test.id }}"'>
-                            {% if order.score == '0' %}
-                                <td class="w-7/12 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.order_name }}</td>
-                                <td class="w-3/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.score }}</td>
-                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white"> Скилл </td>
-                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white"> Активный </td>
-                            {% elif order.score == '1' %}
-                                <td class="w-7/12 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.order_name }}</td>
-                                <td class="w-3/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.score }}</td>
-                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white"> Скилл </td>
-                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white"> Выполняется </td>
-                            {% elif order.score == '2' %}
-                                <td class="w-7/12 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.order_name }}</td>
-                                <td class="w-3/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.score }}</td>
-                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white"> Скилл </td>
-                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white"> Завершён </td>
+                            onclick='location.href="../order/{{ order.pk }}"'>
+                            {% if order.status == 0 %}
+                                <td class="w-4/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.order_name }}</td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.score }}</td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-green-500"> Активный </td>
+                            {% elif order.status == 1 %}
+                                <td class="w-4/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.order_name }}</td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.score }}</td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-orange-500"> Выполняется </td>
+                            {% elif order.status == 2 %}
+                                <td class="w-4/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.order_name }}</td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-white">{{ order.score }}</td>
+                                <td class="w-2/6 py-4 px-6 text-base font-medium whitespace-nowrap text-zinc-500"> Завершён </td>
                             {% endif %}
                         </tr>
                     {% endfor %}
